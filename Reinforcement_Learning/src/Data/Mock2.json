@@ -1,0 +1,54 @@
+{
+  "name": "Crivo",
+  "School_code": "xyz",
+  "City_code": "abc",
+  "Class": "11",
+  "Date": "2025-03-02",
+  "Driven_by": [0, 1, 0, 1, 0, 0, 1, 0, 1, 0],
+  "Activity": {
+    "If on a two-wheeler, did the rider and pillion wear helmets?": [
+      0, 1, 0, 1, 0, 0, 1, 0, 1, 0
+    ],
+    "If in a car, did the driver and passengers wear seat belts?": [
+      1, 0, 1, 1, 0, 0, 0, 1, 1, 0
+    ],
+    "Did the rider/driver excessively honk?": [0, 0, 1, 0, 1, 1, 0, 0, 1, 1],
+    "Did the rider/driver follow traffic signals?": [
+      1, 1, 0, 0, 1, 0, 1, 0, 0, 1
+    ],
+    "During a red signal, did the rider/driver stop within the stop line?": [
+      0, 1, 1, 0, 0, 1, 1, 0, 1, 0
+    ],
+    "Did the rider/driver use a cell phone while riding/driving?": [
+      1, 0, 0, 1, 1, 0, 0, 1, 0, 1
+    ],
+    "Did the rider/driver frequently change lanes?": [
+      0, 1, 0, 1, 0, 1, 1, 0, 0, 0
+    ],
+    "Did the rider/driver drive in a no-entry zone?": [
+      1, 1, 0, 0, 1, 0, 1, 1, 0, 0
+    ],
+    "Did they give way to pedestrians?": [0, 0, 1, 1, 0, 1, 0, 1, 1, 0],
+    "If in an auto, did they overload the auto?": [
+      1, 0, 0, 1, 1, 0, 0, 1, 0, 1
+    ],
+    "If you were on a two-wheeler, did you triple ride?": [
+      1, 0, 0, 1, 1, 0, 0, 1, 0, 1
+    ],
+    "Did your rider/driver have a driving license and insurance?": [
+      1, 0, 0, 1, 1, 0, 0, 1, 0, 1
+    ]
+  },
+  "By_Child": {
+    "Was this learning intiative helpful?": 0,
+    "Did you find the cahnge in the driving skills of the driver Two major take aways": 1,
+    "Enjoyed the rides": 0,
+    "Felt more safe & confortable": 1,
+    "Learnt road safety rules": 0,
+    "Good Family learning on road safety": 0
+  },
+  "By_Parents": {
+    "Did your child learn about Road Safety rules ?": 0,
+    "Were you satisfied in ensuring safe drive for you and your family?": 1
+  }
+}

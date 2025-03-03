@@ -42,6 +42,24 @@ function ResultDisplay() {
       [field]: value,
     }));
   };
+  const getActivityQuestionText = (questionId) => {
+    const activityQuestionMap = {
+      q1: "If on a two-wheeler, did the rider and pillion wear helmets?",
+      q2: "If in a car, did the driver and passengers wear seat belts?",
+      q3: "Did the rider/driver excessively honk?",
+      q4: "Did the rider/driver follow traffic signals?",
+      q5: "During a red signal, did the rider/driver stop within the stop line?",
+      q6: "Did the rider/driver use a cell phone while riding/driving?",
+      q7: "Did the rider/driver frequently change lanes?",
+      q8: "Did the rider/driver drive in a no-entry zone?",
+      q9: "Did they give way to pedestrians?",
+      q10: "If in an auto, did they overload the auto?",
+      q11: "If you were on a two-wheeler, did you triple ride?",
+      q12: "Did your rider/driver have a driving license and insurance?",
+    };
+
+    return activityQuestionMap[questionId] || questionId;
+  };
 
   // Handle binary field changes
   const handleBinaryChange = (field, index, value) => {
@@ -80,6 +98,36 @@ function ResultDisplay() {
       // No changes were made
       alert("Form saved successfully!");
     }
+  };
+
+  useEffect(() => {
+    if (result) {
+      console.log("Result structure:", result);
+    }
+  }, [result]);
+
+  // Add this function to map question IDs to full text
+  const getQuestionText = (questionId) => {
+    const questionMap = {
+      q1: "Was this learning initiative helpful?",
+      q2: "Did you find the change in the driving skills of the driver?",
+      q3: "Enjoyed the rides?",
+      q4: "Felt more safe & comfortable?",
+      q5: "Learnt road safety rules?",
+      q6: "Good Family learning on road safety?",
+    };
+
+    return questionMap[questionId] || questionId;
+  };
+
+  // Add this function to map parent question IDs to full text
+  const getParentQuestionText = (questionId) => {
+    const parentQuestionMap = {
+      q1: "Did your child learn about road safety rules?",
+      q2: "Were you satisfied in ensuring safe drive for you and your family?",
+    };
+
+    return parentQuestionMap[questionId] || questionId;
   };
 
   if (!result) {
@@ -204,158 +252,170 @@ function ResultDisplay() {
                 </div>
 
                 {/* Driven By Section */}
-                <div className="bg-green-50 p-6 rounded-lg">
-                  <h2 className="text-xl font-semibold mb-4 text-green-700">
-                    Driven By
-                  </h2>
-                  <div className="mb-4">
-                    <div className="flex justify-between mb-2">
-                      <span className="font-medium">Parents:</span>
-                      <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">
-                        {countOccurrences(result.Driven_by, 1)}
-                      </span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="font-medium">Others:</span>
-                      <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
-                        {countOccurrences(result.Driven_by, 0)}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="space-y-2 mt-4">
-                    {result.Driven_by.map((value, index) => (
-                      <div
-                        key={`driven-${index}`}
-                        className="flex justify-between items-center p-2 bg-white rounded-md shadow-sm"
-                      >
-                        <span className="font-medium">Ride {index + 1}:</span>
-                        <select
-                          value={binaryToYesNo(value)}
-                          onChange={(e) =>
-                            handleBinaryChange(
-                              "Driven_by",
-                              index,
-                              e.target.value
-                            )
-                          }
-                          className="px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                        >
-                          <option value="Yes">Parent</option>
-                          <option value="No">Other</option>
-                        </select>
+                {result.Driven_by && Array.isArray(result.Driven_by) && (
+                  <div className="bg-green-50 p-6 rounded-lg">
+                    <h2 className="text-xl font-semibold mb-4 text-green-700">
+                      Driven By
+                    </h2>
+                    <div className="mb-4">
+                      <div className="flex justify-between mb-2">
+                        <span className="font-medium">Parents:</span>
+                        <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">
+                          {countOccurrences(result.Driven_by, 1)}
+                        </span>
                       </div>
-                    ))}
+                      <div className="flex justify-between">
+                        <span className="font-medium">Others:</span>
+                        <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
+                          {countOccurrences(result.Driven_by, 0)}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="space-y-2 mt-4">
+                      {result.Driven_by.map((value, index) => (
+                        <div
+                          key={`driven-${index}`}
+                          className="flex justify-between items-center p-2 bg-white rounded-md shadow-sm"
+                        >
+                          <span className="font-medium">Ride {index + 1}:</span>
+                          <select
+                            value={binaryToYesNo(value)}
+                            onChange={(e) =>
+                              handleBinaryChange(
+                                "Driven_by",
+                                index,
+                                e.target.value
+                              )
+                            }
+                            className="px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                          >
+                            <option value="Yes">Parent</option>
+                            <option value="No">Other</option>
+                          </select>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {/* Activity Section */}
-                <div className="bg-purple-50 p-6 rounded-lg">
-                  <h2 className="text-xl font-semibold mb-4 text-purple-700">
-                    Activity
-                  </h2>
-                  <div className="space-y-6">
-                    {Object.entries(result.Activity).map(
-                      ([question, values]) => (
-                        <div
-                          key={question}
-                          className="bg-white p-4 rounded-lg shadow-sm"
-                        >
-                          <h3 className="font-medium text-lg mb-3 text-purple-600">
-                            {question}
-                          </h3>
-                          <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
-                            {values.map((value, index) => (
-                              <div
-                                key={`${question}-${index}`}
-                                className="flex flex-col"
-                              >
-                                <span className="text-xs text-gray-500 mb-1">
-                                  Ride {index + 1}
-                                </span>
-                                <select
-                                  value={binaryToYesNo(value)}
-                                  onChange={(e) =>
-                                    handleActivityChange(
-                                      question,
-                                      index,
-                                      e.target.value
-                                    )
-                                  }
-                                  className="px-2 py-1 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+                {result.Activity && typeof result.Activity === "object" && (
+                  <div className="bg-purple-50 p-6 rounded-lg">
+                    <h2 className="text-xl font-semibold mb-4 text-purple-700">
+                      Activity
+                    </h2>
+                    <div className="space-y-6">
+                      {Object.entries(result.Activity).map(
+                        ([question, values]) => (
+                          <div
+                            key={question}
+                            className="bg-white p-4 rounded-lg shadow-sm"
+                          >
+                            <h3 className="font-medium text-lg mb-3 text-purple-600">
+                              {getActivityQuestionText(question)}
+                            </h3>
+                            <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
+                              {values.map((value, index) => (
+                                <div
+                                  key={`${question}-${index}`}
+                                  className="flex flex-col"
                                 >
-                                  <option value="Yes">Yes</option>
-                                  <option value="No">No</option>
-                                </select>
-                              </div>
-                            ))}
+                                  <span className="text-xs text-gray-500 mb-1">
+                                    Ride {index + 1}
+                                  </span>
+                                  <select
+                                    value={binaryToYesNo(value)}
+                                    onChange={(e) =>
+                                      handleActivityChange(
+                                        question,
+                                        index,
+                                        e.target.value
+                                      )
+                                    }
+                                    className="px-2 py-1 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                  >
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                  </select>
+                                </div>
+                              ))}
+                            </div>
                           </div>
-                        </div>
-                      )
-                    )}
+                        )
+                      )}
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {/* By Child Section */}
-                <div className="bg-yellow-50 p-6 rounded-lg">
-                  <h2 className="text-xl font-semibold mb-4 text-yellow-700">
-                    By Child
-                  </h2>
-                  <div className="space-y-2">
-                    {result.By_Child.map((value, index) => (
-                      <div
-                        key={`child-${index}`}
-                        className="flex justify-between items-center p-2 bg-white rounded-md shadow-sm"
-                      >
-                        <span className="font-medium">q{index + 1}:</span>
-                        <select
-                          value={binaryToYesNo(value)}
-                          onChange={(e) =>
-                            handleBinaryChange(
-                              "By_Child",
-                              index,
-                              e.target.value
-                            )
-                          }
-                          className="px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                {result.By_Child && Array.isArray(result.By_Child) && (
+                  <div className="bg-yellow-50 p-6 rounded-lg">
+                    <h2 className="text-xl font-semibold mb-4 text-yellow-700">
+                      By Child
+                    </h2>
+                    <div className="space-y-2">
+                      {result.By_Child.map((value, index) => (
+                        <div
+                          key={`child-${index}`}
+                          className="flex justify-between items-center p-2 bg-white rounded-md shadow-sm"
                         >
-                          <option value="Yes">Yes</option>
-                          <option value="No">No</option>
-                        </select>
-                      </div>
-                    ))}
+                          <span className="font-medium">
+                            {getQuestionText(`q${index + 1}`)}
+                          </span>
+                          <select
+                            value={binaryToYesNo(value)}
+                            onChange={(e) =>
+                              handleBinaryChange(
+                                "By_Child",
+                                index,
+                                e.target.value
+                              )
+                            }
+                            className="px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                          >
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                          </select>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {/* By Parents Section */}
-                <div className="bg-red-50 p-6 rounded-lg">
-                  <h2 className="text-xl font-semibold mb-4 text-red-700">
-                    By Parents
-                  </h2>
-                  <div className="space-y-2">
-                    {result.By_Parents.map((value, index) => (
-                      <div
-                        key={`parent-${index}`}
-                        className="flex justify-between items-center p-2 bg-white rounded-md shadow-sm"
-                      >
-                        <span className="font-medium">q{index + 1}:</span>
-                        <select
-                          value={binaryToYesNo(value)}
-                          onChange={(e) =>
-                            handleBinaryChange(
-                              "By_Parents",
-                              index,
-                              e.target.value
-                            )
-                          }
-                          className="px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+                {result.By_Parents && Array.isArray(result.By_Parents) && (
+                  <div className="bg-red-50 p-6 rounded-lg">
+                    <h2 className="text-xl font-semibold mb-4 text-red-700">
+                      By Parents
+                    </h2>
+                    <div className="space-y-2">
+                      {result.By_Parents.map((value, index) => (
+                        <div
+                          key={`parent-${index}`}
+                          className="flex justify-between items-center p-2 bg-white rounded-md shadow-sm"
                         >
-                          <option value="Yes">Yes</option>
-                          <option value="No">No</option>
-                        </select>
-                      </div>
-                    ))}
+                          <span className="font-medium">
+                            {getParentQuestionText(`q${index + 1}`)}
+                          </span>
+                          <select
+                            value={binaryToYesNo(value)}
+                            onChange={(e) =>
+                              handleBinaryChange(
+                                "By_Parents",
+                                index,
+                                e.target.value
+                              )
+                            }
+                            className="px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+                          >
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                          </select>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {/* Submit Button */}
                 <div className="flex justify-center mt-8">
@@ -420,7 +480,7 @@ function ResultDisplay() {
             >
               <path
                 fillRule="evenodd"
-                d="M10 18a8 8 0 100-16 8 8 0 000 16zm.707-10.293a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L9.414 11H13a1 1 0 100-2H9.414l1.293-1.293z"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm.707-10.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
                 clipRule="evenodd"
               />
             </svg>

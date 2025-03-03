@@ -40,15 +40,14 @@ function PhotoProcessor({ imageFile, onResultReceived, onError }) {
         // Use mock data with a simulated delay
         console.log("Using mock data path");
         await new Promise((resolve) => setTimeout(resolve, 1500));
-        response = mockData;
+        response = mockData.model_output;
       } else {
         // Make the actual API call
         console.log("Using real API path");
         const formData = new FormData();
         formData.append("img", imageFile);
-
         const apiResponse = await axios.post(
-          "http://127.0.0.1:8000/model",
+          import.meta.env.VITE_CRIVO_API,
           formData,
           {
             headers: {
@@ -63,7 +62,8 @@ function PhotoProcessor({ imageFile, onResultReceived, onError }) {
           }
         );
 
-        response = apiResponse.data;
+        // Extract model_output from the response
+        response = apiResponse.data.model_output;
       }
 
       // Clear the progress interval and set to 100%
@@ -101,24 +101,12 @@ function PhotoProcessor({ imageFile, onResultReceived, onError }) {
           />
 
           <div className="flex flex-col items-center w-full mb-4">
-            <div className="flex items-center justify-center mb-2">
-              <label className="inline-flex items-center cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={useMockData}
-                  onChange={toggleMockData}
-                  className="sr-only peer"
-                />
-                <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-                <span className="ms-3 text-sm font-medium text-gray-900">
-                  {useMockData ? "Using Mock Data" : "Using Live API"}
-                </span>
-              </label>
-            </div>
             <p className="text-xs text-gray-500">
               {useMockData
                 ? "Currently using sample data (no API call)"
-                : "Will make real API call to http://127.0.0.1:8000/model"}
+                : `Will make real API call to ${
+                    import.meta.env.VITE_CRIVO_API
+                  }`}
             </p>
           </div>
 

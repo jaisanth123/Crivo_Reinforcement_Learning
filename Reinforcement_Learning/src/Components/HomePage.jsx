@@ -40,13 +40,6 @@ function HomePage() {
         />
       </div>
 
-      <h1 className="text-3xl font-bold mb-4 text-purple-600">
-        Photo Adventure
-      </h1>
-      <p className="text-lg text-center mb-8 text-gray-600 max-w-md">
-        Take a picture or upload one to start your amazing discovery journey!
-      </p>
-
       <button
         onClick={handleUploadClick}
         className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white font-bold py-3 px-6 rounded-full text-xl shadow-lg transform transition hover:scale-105"
