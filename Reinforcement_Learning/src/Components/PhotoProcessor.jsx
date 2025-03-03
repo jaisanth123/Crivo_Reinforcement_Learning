@@ -6,7 +6,7 @@ function PhotoProcessor({ imageFile, onResultReceived, onError }) {
   const [isLoading, setIsLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [apiResponse, setApiResponse] = useState(null);
-  const [useMockData, setUseMockData] = useState(true); // Default to using mock data
+  const [useMockData, setUseMockData] = useState(false); // Changed to use API data by default
 
   // Debug log to verify state changes
   useEffect(() => {
@@ -99,16 +99,6 @@ function PhotoProcessor({ imageFile, onResultReceived, onError }) {
             alt="Selected"
             className="max-w-md max-h-96 object-contain mb-4 border rounded"
           />
-
-          <div className="flex flex-col items-center w-full mb-4">
-            <p className="text-xs text-gray-500">
-              {useMockData
-                ? "Currently using sample data (no API call)"
-                : `Will make real API call to ${
-                    import.meta.env.VITE_CRIVO_API
-                  }`}
-            </p>
-          </div>
 
           <button
             onClick={uploadPhoto}
