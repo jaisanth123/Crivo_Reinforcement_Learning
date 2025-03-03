@@ -1,10 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
+import mockData from "../Data/Mock.json"; // Import the mock data
 
 function PhotoProcessor({ imageFile, onResultReceived, onError }) {
   const [isLoading, setIsLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [apiResponse, setApiResponse] = useState(null);
+  const [useMockData, setUseMockData] = useState(true); // Default to using mock data
+
+  // Debug log to verify state changes
+  useEffect(() => {
+    console.log("Mock data toggle state:", useMockData);
+  }, [useMockData]);
 
   const uploadPhoto = async () => {
     if (!imageFile) return;
@@ -12,73 +19,64 @@ function PhotoProcessor({ imageFile, onResultReceived, onError }) {
     setIsLoading(true);
     setProgress(0);
 
-    // Simulate progress
-    const progressInterval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 95) {
-          clearInterval(progressInterval);
-          return 95;
-        }
-        return prev + 5;
-      });
-    }, 100);
-
     try {
-      // Mock API call - simulate a delay
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      // Set up progress simulation
+      const progressInterval = setInterval(() => {
+        setProgress((prev) => {
+          if (prev >= 95) {
+            clearInterval(progressInterval);
+            return 95;
+          }
+          return prev + 5;
+        });
+      }, 100);
 
-      // Create mock response
-      const mockResponse = {
-        success: true,
-        message: "Image successfully processed",
-        timestamp: new Date().toISOString(),
-        filename: imageFile.name,
-        filesize: imageFile.size,
-        results: {
-          classification: "Sample Classification",
-          confidence: 0.95,
-          processingTime: "1.2 seconds",
-        },
-      };
+      let response;
 
-      // Complete the progress
+      // Log which path we're taking
+      console.log("Using mock data?", useMockData);
+
+      if (useMockData) {
+        // Use mock data with a simulated delay
+        console.log("Using mock data path");
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+        response = mockData;
+      } else {
+        // Make the actual API call
+        console.log("Using real API path");
+        const formData = new FormData();
+        formData.append("img", imageFile);
+
+        const apiResponse = await axios.post(
+          "http://127.0.0.1:8000/model",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+            onUploadProgress: (progressEvent) => {
+              const percentCompleted = Math.round(
+                (progressEvent.loaded * 100) / progressEvent.total
+              );
+              setProgress(percentCompleted);
+            },
+          }
+        );
+
+        response = apiResponse.data;
+      }
+
+      // Clear the progress interval and set to 100%
       clearInterval(progressInterval);
       setProgress(100);
 
-      setApiResponse(mockResponse);
+      setApiResponse(response);
 
       // Call the callback with the result
       if (onResultReceived) {
-        onResultReceived(mockResponse);
+        onResultReceived(response);
       }
-
-      // When you're ready to use a real API, uncomment this code:
-      /*
-      const formData = new FormData();
-      formData.append('image', imageFile);
-      
-      const API_URL = 'https://your-real-api-endpoint.com/analyze';
-      
-      const response = await axios.post(API_URL, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-        onUploadProgress: (progressEvent) => {
-          const percentCompleted = Math.round(
-            (progressEvent.loaded * 100) / progressEvent.total
-          );
-          setProgress(percentCompleted);
-        }
-      });
-      
-      setApiResponse(response.data);
-      
-      if (onResultReceived) {
-        onResultReceived(response.data);
-      }
-      */
     } catch (error) {
-      clearInterval(progressInterval);
       console.error("Error uploading image:", error);
       if (onError) {
         onError(error.message || "Failed to upload image");
@@ -86,6 +84,10 @@ function PhotoProcessor({ imageFile, onResultReceived, onError }) {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const toggleMockData = () => {
+    setUseMockData((prev) => !prev);
   };
 
   return (
@@ -97,6 +99,28 @@ function PhotoProcessor({ imageFile, onResultReceived, onError }) {
             alt="Selected"
             className="max-w-md max-h-96 object-contain mb-4 border rounded"
           />
+
+          <div className="flex flex-col items-center w-full mb-4">
+            <div className="flex items-center justify-center mb-2">
+              <label className="inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={useMockData}
+                  onChange={toggleMockData}
+                  className="sr-only peer"
+                />
+                <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                <span className="ms-3 text-sm font-medium text-gray-900">
+                  {useMockData ? "Using Mock Data" : "Using Live API"}
+                </span>
+              </label>
+            </div>
+            <p className="text-xs text-gray-500">
+              {useMockData
+                ? "Currently using sample data (no API call)"
+                : "Will make real API call to http://127.0.0.1:8000/model"}
+            </p>
+          </div>
 
           <button
             onClick={uploadPhoto}
@@ -118,7 +142,9 @@ function PhotoProcessor({ imageFile, onResultReceived, onError }) {
                   style={{ width: `${progress}%` }}
                 ></div>
               </div>
-              <p className="text-center text-sm mt-1">{progress}% Uploaded</p>
+              <p className="text-center text-sm mt-1">
+                {progress}% {useMockData ? "Simulated" : "Uploaded"}
+              </p>
             </div>
           )}
 
