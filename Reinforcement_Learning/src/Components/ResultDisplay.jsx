@@ -71,10 +71,15 @@ function ResultDisplay() {
 
   // Handle form submission
   const handleSubmit = () => {
-    // Here you would typically send the updated data to your backend
-    alert("Changes submitted successfully!");
-    setOriginalResult({ ...result });
-    setHasChanges(false);
+    if (hasChanges) {
+      // Here you would typically send the updated data to your backend
+      alert("Changes submitted successfully!");
+      setOriginalResult({ ...result });
+      setHasChanges(false);
+    } else {
+      // No changes were made
+      alert("Form saved successfully!");
+    }
   };
 
   if (!result) {
@@ -356,11 +361,10 @@ function ResultDisplay() {
                 <div className="flex justify-center mt-8">
                   <button
                     onClick={handleSubmit}
-                    disabled={!hasChanges}
                     className={`flex items-center px-6 py-3 rounded-full text-white font-bold shadow-lg transition-all ${
                       hasChanges
                         ? "bg-green-500 hover:bg-green-600 transform hover:scale-105"
-                        : "bg-gray-400 cursor-not-allowed"
+                        : "bg-blue-500 hover:bg-blue-600"
                     }`}
                   >
                     {hasChanges ? (
