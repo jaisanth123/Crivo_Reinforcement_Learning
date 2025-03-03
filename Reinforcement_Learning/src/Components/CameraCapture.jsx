@@ -10,7 +10,7 @@ function CameraCapture() {
   const [isLoading, setIsLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState(null);
-  const [useMockData, setUseMockData] = useState(true); // Default to using mock data
+  const [useMockData, setUseMockData] = useState(false); // Default to using mock data
   const navigate = useNavigate();
 
   // Debug log to verify state changes
