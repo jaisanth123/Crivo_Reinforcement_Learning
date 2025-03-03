@@ -11,8 +11,8 @@ function HomePage() {
   };
 
   const handleLocalUpload = () => {
-    // Directly trigger file input click instead of navigating
-    fileInputRef.current.click();
+    // Navigate to the photo upload page instead of triggering file input
+    navigate("/photo/upload");
     setShowModal(false);
   };
 
@@ -54,7 +54,7 @@ function HomePage() {
         Start Your Adventure!
       </button>
 
-      {/* Hidden file input */}
+      {/* Hidden file input - keeping this for backward compatibility */}
       <input
         type="file"
         ref={fileInputRef}
