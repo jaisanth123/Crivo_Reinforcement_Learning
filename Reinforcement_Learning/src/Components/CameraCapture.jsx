@@ -121,7 +121,8 @@ function CameraCapture() {
         console.log("Camera using mock data path");
         await new Promise((resolve) => setTimeout(resolve, 1500));
         response = mockData;
-        response = response.data.model_output;
+        console.log("Mock data response:", response);
+        response = response.model_output;
       } else {
         // Convert base64 to blob
         console.log("Camera using real API path");
@@ -154,6 +155,7 @@ function CameraCapture() {
           }
         );
 
+        console.log("API response:", apiResponse);
         response = apiResponse.data.model_output;
         console.log(response);
       }
