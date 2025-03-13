@@ -1,12 +1,6 @@
-import QuestionItem from "./QuestionItem";
+import React from "react";
 
-function QuestionSection({
-  title,
-  questions,
-  handleChange,
-  getQuestionText,
-  binaryToYesNo,
-}) {
+function QuestionSection({ title, questions, getQuestionText, binaryToYesNo }) {
   const color = title === "By Child" ? "yellow" : "red";
   return (
     <div className={`bg-${color}-50 p-6 rounded-lg`}>
@@ -15,14 +9,23 @@ function QuestionSection({
       </h2>
       <div className="space-y-2">
         {questions.map((value, index) => (
-          <QuestionItem
+          <div
             key={`${title}-${index}`}
-            questionText={getQuestionText(`q${index + 1}`)}
-            value={value}
-            onChange={(e) => handleChange(index, e.target.value)}
-            binaryToYesNo={binaryToYesNo}
-            color={color}
-          />
+            className="flex justify-between items-center p-2 bg-white rounded-md shadow-sm"
+          >
+            <span className="font-medium">
+              {getQuestionText(`q${index + 1}`)}
+            </span>
+            <span
+              className={`px-3 py-1 rounded-full text-sm ${
+                value === 1
+                  ? "bg-green-100 text-green-800"
+                  : "bg-red-100 text-red-800"
+              }`}
+            >
+              {binaryToYesNo(value)}
+            </span>
+          </div>
         ))}
       </div>
     </div>

@@ -31,7 +31,7 @@ function HomePage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[80vh]">
+    <div className="flex flex-col w-full  items-center justify-center min-h-[80vh]">
       <div className="mb-8">
         <img
           src="https://cdn-icons-png.flaticon.com/512/2362/2362200.png"
@@ -63,7 +63,7 @@ function HomePage() {
               Choose Your Path!
             </h2>
 
-            <div className="grid grid-cols-2 gap-6 mb-6">
+            <div className="grid grid-cols-1 gap-6 mb-6">
               <div
                 onClick={handleLocalUpload}
                 className="flex flex-col items-center p-4 border-2 border-green-300 rounded-xl cursor-pointer hover:bg-green-50 transition"
@@ -78,7 +78,7 @@ function HomePage() {
                 </span>
               </div>
 
-              <div
+              {/* <div
                 onClick={handleCameraCapture}
                 className="flex flex-col items-center p-4 border-2 border-blue-300 rounded-xl cursor-pointer hover:bg-blue-50 transition"
               >
@@ -88,7 +88,7 @@ function HomePage() {
                   className="w-16 h-16 mb-2"
                 />
                 <span className="font-medium text-blue-600">Take Photo</span>
-              </div>
+              </div> */}
             </div>
 
             <button

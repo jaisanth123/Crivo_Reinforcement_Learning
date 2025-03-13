@@ -1,6 +1,6 @@
 import React from "react";
 
-function DrivenBy({ drivenBy, handleChange, binaryToYesNo, countOccurrences }) {
+function DrivenBy({ drivenBy, binaryToYesNo, countOccurrences }) {
   const countParents = countOccurrences(drivenBy, 1);
   const countOthers = drivenBy.length - countParents;
 
@@ -28,14 +28,15 @@ function DrivenBy({ drivenBy, handleChange, binaryToYesNo, countOccurrences }) {
             className="flex justify-between items-center p-2 bg-white rounded-md shadow-sm"
           >
             <span className="font-medium">Ride {index + 1}:</span>
-            <select
-              value={binaryToYesNo(value)}
-              onChange={(e) => handleChange(index, e.target.value)}
-              className="px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+            <span
+              className={`px-3 py-1 rounded-full text-sm ${
+                value === 1
+                  ? "bg-green-100 text-green-800"
+                  : "bg-blue-100 text-blue-800"
+              }`}
             >
-              <option value="Yes">Parent</option>
-              <option value="No">Other</option>
-            </select>
+              {value === 1 ? "Parent" : "Other"}
+            </span>
           </div>
         ))}
       </div>
