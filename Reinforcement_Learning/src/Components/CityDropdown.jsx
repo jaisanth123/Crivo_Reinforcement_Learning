@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 const schools = ["School A", "School B", "School C", "School D", "School E"];
 const cities = [
@@ -188,6 +188,49 @@ const CityDropdown = ({
   cityCode,
   onCityCodeChange,
 }) => {
+  // Validation states
+  const [classError, setClassError] = useState("");
+  const [emailError, setEmailError] = useState("");
+
+  // Validate class input (should be numbers only)
+  const validateClass = (value) => {
+    // Allow "Class" prefix followed by numbers
+    const classPattern = /^(Class\s+)?[0-9]+$/;
+
+    if (!value) {
+      setClassError("");
+      onClassChange(value);
+      return;
+    }
+
+    if (!classPattern.test(value)) {
+      setClassError("Class should contain numbers only (e.g. Class 5)");
+    } else {
+      setClassError("");
+    }
+
+    onClassChange(value);
+  };
+
+  // Validate email format
+  const validateEmail = (value) => {
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+
+    if (!value) {
+      setEmailError("");
+      onEmailChange(value);
+      return;
+    }
+
+    if (!emailPattern.test(value)) {
+      setEmailError("Please enter a valid email address");
+    } else {
+      setEmailError("");
+    }
+
+    onEmailChange(value);
+  };
+
   return (
     <div className="bg-gradient-to-r w-100 from-orange-100 to-yellow-100 p-6 rounded-xl shadow-lg">
       <div className="space-y-4">
@@ -221,10 +264,17 @@ const CityDropdown = ({
           <input
             type="text"
             value={className || ""}
-            onChange={(e) => onClassChange(e.target.value)}
+            onChange={(e) => validateClass(e.target.value)}
             placeholder="Example: Class 5"
-            className="w-full px-4 py-3 rounded-xl border-2 border-green-200 focus:border-green-400 focus:outline-none text-lg"
+            className={`w-full px-4 py-3 rounded-xl border-2 ${
+              classError
+                ? "border-red-400"
+                : "border-green-200 focus:border-green-400"
+            } focus:outline-none text-lg`}
           />
+          {classError && (
+            <p className="text-red-500 text-sm mt-2">{classError}</p>
+          )}
         </div>
 
         <div className="bg-white p-4 rounded-lg shadow-md border-2 border-blue-300">
@@ -239,10 +289,17 @@ const CityDropdown = ({
           <input
             type="email"
             value={email || ""}
-            onChange={(e) => onEmailChange(e.target.value)}
+            onChange={(e) => validateEmail(e.target.value)}
             placeholder="example@email.com"
-            className="w-full px-4 py-3 rounded-xl border-2 border-blue-200 focus:border-blue-400 focus:outline-none text-lg"
+            className={`w-full px-4 py-3 rounded-xl border-2 ${
+              emailError
+                ? "border-red-400"
+                : "border-blue-200 focus:border-blue-400"
+            } focus:outline-none text-lg`}
           />
+          {emailError && (
+            <p className="text-red-500 text-sm mt-2">{emailError}</p>
+          )}
         </div>
 
         <div className="bg-white p-4 rounded-lg shadow-md border-2 border-purple-300">
@@ -290,29 +347,7 @@ const CityDropdown = ({
             ))}
           </select>
         </div>
-
-        {/* <div className="bg-white p-4 rounded-lg shadow-md border-2 border-yellow-300">
-          <div className="flex items-center mb-2">
-            <div className="text-yellow-500 mr-2">
-              <CodeIcon />
-            </div>
-            <label className="font-medium text-yellow-800">
-              Your city code
-            </label>
-          </div>
-          <input
-            type="text"
-            value={cityCode || ""}
-            onChange={(e) => onCityCodeChange(e.target.value)}
-            placeholder="Enter code"
-            className="w-full px-4 py-3 rounded-xl border-2 border-yellow-200 focus:border-yellow-400 focus:outline-none text-lg"
-          />
-        </div> */}
       </div>
-      {/* 
-      <button className="mt-6 w-full bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-orange-500 text-white font-bold py-3 px-4 rounded-xl shadow-lg transform transition hover:scale-105">
-        Submit My Info!
-      </button> */}
     </div>
   );
 };

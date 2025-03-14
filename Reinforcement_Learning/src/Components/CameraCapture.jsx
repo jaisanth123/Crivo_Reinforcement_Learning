@@ -156,7 +156,7 @@ function CameraCapture() {
         );
 
         console.log("API response:", apiResponse);
-        response = apiResponse.data.model_output;
+        response = apiResponse.datavoutput;
         console.log(response);
       }
 

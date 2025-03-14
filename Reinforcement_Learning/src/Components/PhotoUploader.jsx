@@ -20,8 +20,13 @@ function PhotoUploader() {
 
   const handleFileChange = (e) => {
     if (e.target.files && e.target.files[0]) {
-      setSelectedFile(e.target.files[0]);
-      setError(null);
+      const file = e.target.files[0];
+      if (file.type === "application/pdf") {
+        setSelectedFile(file);
+        setError(null);
+      } else {
+        setError("Please select a valid PDF file.");
+      }
     }
   };
 
@@ -41,11 +46,11 @@ function PhotoUploader() {
 
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
       const file = e.dataTransfer.files[0];
-      if (file && file.type.startsWith("image/")) {
+      if (file && file.type === "application/pdf") {
         setSelectedFile(file);
         setError(null);
       } else {
-        setError("Please drop a valid image file.");
+        setError("Please drop a valid PDF file.");
       }
     }
   };
@@ -68,7 +73,7 @@ function PhotoUploader() {
     <div className="flex flex-col items-center justify-center">
       <div className="bg-white p-6 rounded-2xl shadow-md max-w-2xl w-full">
         <h2 className="text-2xl font-bold mb-6 text-center text-blue-600">
-          Your Photo
+          Your PDF
         </h2>
 
         {!selectedFile && (
@@ -90,8 +95,8 @@ function PhotoUploader() {
               />
               <p className="text-gray-600 mb-4 text-center">
                 {isDragging
-                  ? "Drop your photo here"
-                  : "Drag and drop your photo here, or click to select"}
+                  ? "Drop your PDF here"
+                  : "Drag and drop your PDF here, or click to select"}
               </p>
               <button
                 onClick={handleBrowseClick}
@@ -102,7 +107,7 @@ function PhotoUploader() {
               <input
                 ref={fileInputRef}
                 type="file"
-                accept="image/*"
+                accept="application/pdf"
                 onChange={handleFileChange}
                 className="hidden"
               />
@@ -119,11 +124,21 @@ function PhotoUploader() {
         {selectedFile && (
           <div className="mb-6">
             <div className="flex flex-col items-center">
-              <img
-                src={URL.createObjectURL(selectedFile)}
-                alt="Selected"
-                className="max-h-64 max-w-full mb-4 rounded-lg shadow-sm"
-              />
+              <div className="max-h-64 max-w-full mb-4 rounded-lg shadow-sm p-4 bg-gray-100 flex items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-12 w-12 text-red-500"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <span className="ml-2">{selectedFile.name}</span>
+              </div>
               <p className="text-green-600 font-medium mb-2">
                 {selectedFile.name}
               </p>

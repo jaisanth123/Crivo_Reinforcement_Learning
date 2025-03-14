@@ -8,12 +8,12 @@ function PhotoProcessor({ imageFile, onResultReceived, onError }) {
   const [progress, setProgress] = useState(0);
   const [apiResponse, setApiResponse] = useState(null);
   const [useMockData, setUseMockData] = useState(true); // Changed to use API data by default
-  const [name, setName] = useState(""); // New state for name
-  const [className, setClassName] = useState(""); // New state for class
-  const [selectedSchool, setSelectedSchool] = useState(""); // New state for selected school
-  const [selectedCity, setSelectedCity] = useState(""); // New state for selected city
-  const [cityCode, setCityCode] = useState(""); // New state for city code
-  const [email, setEmail] = useState(""); // New state for email
+  const [name, setName] = useState(""); // State for name
+  const [className, setClassName] = useState(""); // State for class
+  const [selectedSchool, setSelectedSchool] = useState(""); // State for selected school
+  const [selectedCity, setSelectedCity] = useState(""); // State for selected city
+  const [cityCode, setCityCode] = useState(""); // State for city code
+  const [email, setEmail] = useState(""); // State for email
 
   // Debug log to verify state changes
   useEffect(() => {
@@ -47,12 +47,28 @@ function PhotoProcessor({ imageFile, onResultReceived, onError }) {
         // Use mock data with a simulated delay
         console.log("Using mock data path");
         await new Promise((resolve) => setTimeout(resolve, 1500));
-        response = mockData.model_output;
+
+        // Important: Incorporate form data into the response
+        response = {
+          ...mockData.model_output,
+          name: name,
+          School_code: selectedSchool,
+          City_code: selectedCity,
+          Class: className,
+        };
       } else {
         // Make the actual API call
         console.log("Using real API path");
         const formData = new FormData();
         formData.append("img", imageFile);
+
+        // Add form data to API request
+        formData.append("name", name);
+        formData.append("class", className);
+        formData.append("school", selectedSchool);
+        formData.append("city", selectedCity);
+        formData.append("email", email);
+
         const apiResponse = await axios.post(
           import.meta.env.VITE_CRIVO_API,
           formData,
@@ -69,8 +85,14 @@ function PhotoProcessor({ imageFile, onResultReceived, onError }) {
           }
         );
 
-        // Extract model_output from the response
-        response = apiResponse.data.model_output;
+        // Extract model_output from the response and merge with form data
+        response = {
+          ...apiResponse.data.model_output,
+          name: name,
+          School_code: selectedSchool,
+          City_code: selectedCity,
+          Class: className,
+        };
       }
 
       // Clear the progress interval and set to 100%
@@ -100,13 +122,7 @@ function PhotoProcessor({ imageFile, onResultReceived, onError }) {
   // Check if all required fields are filled
   const isFormValid = () => {
     return (
-      name &&
-      className &&
-      selectedSchool &&
-      selectedCity &&
-      cityCode &&
-      email &&
-      imageFile
+      name && className && selectedSchool && selectedCity && email && imageFile
     );
   };
 
@@ -138,7 +154,7 @@ function PhotoProcessor({ imageFile, onResultReceived, onError }) {
     px-6 py-3 mt-10 rounded-lg font-medium text-base transition-all duration-300
     shadow-lg transform hover:-translate-y-1 relative
     ${
-      isLoading
+      isLoading || !isFormValid()
         ? "bg-gray-700 text-gray-300 cursor-not-allowed opacity-80"
         : "bg-gradient-to-r from-blue-700 to-indigo-800 text-white hover:from-blue-800 hover:to-indigo-900"
     }

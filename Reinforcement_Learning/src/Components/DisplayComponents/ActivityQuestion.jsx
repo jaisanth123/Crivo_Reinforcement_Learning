@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 function ActivityQuestion({
   questionId,
@@ -9,7 +9,7 @@ function ActivityQuestion({
 }) {
   return (
     <div className="bg-white p-4 rounded-lg shadow-sm">
-      <h3 className="font-medium text-lg mb-3 text-purple-600">
+      <h3 className="font-medium text-lg  text-purple-600">
         {getActivityQuestionText(questionId)}
       </h3>
       <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
@@ -23,7 +23,7 @@ function ActivityQuestion({
               }
               className="px-2 py-1 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
-              <option value="Yes">Yes</option>
+              <option value="Yes">Yesssssssssssss</option>
               <option value="No">No</option>
             </select>
           </div>
