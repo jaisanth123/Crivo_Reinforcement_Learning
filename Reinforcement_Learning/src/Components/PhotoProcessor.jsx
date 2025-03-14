@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom"; // Import for navigation
 import mockData from "../Data/Mock.json"; // Import the mock data
 import CityDropdown from "./CityDropdown"; // Import the CityDropdown component
 
 function PhotoProcessor({ imageFile, onResultReceived, onError }) {
+  const navigate = useNavigate(); // For navigation
   const [isLoading, setIsLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [apiResponse, setApiResponse] = useState(null);
@@ -14,17 +16,73 @@ function PhotoProcessor({ imageFile, onResultReceived, onError }) {
   const [selectedCity, setSelectedCity] = useState(""); // State for selected city
   const [cityCode, setCityCode] = useState(""); // State for city code
   const [email, setEmail] = useState(""); // State for email
+  const [submitStatus, setSubmitStatus] = useState(null); // State for backend submission status
+  const [emailChecked, setEmailChecked] = useState(false); // To track if email has been checked
 
   // Debug log to verify state changes
   useEffect(() => {
     console.log("Mock data toggle state:", useMockData);
   }, [useMockData]);
 
+  // Function to check if email already exists
+  const checkEmail = async () => {
+    if (!email) return;
+
+    setIsLoading(true);
+    try {
+      const response = await axios.get(
+        `http://127.0.0.1:8000/check-email/${email}`
+      );
+      console.log("Email check response:", response.data);
+
+      if (response.data.message !== "Email unavailable") {
+        // Email exists, navigate to certificate page
+        setSubmitStatus({
+          success: true,
+          message: "Email found in system. Redirecting to certificate page...",
+        });
+
+        // Wait a moment before redirecting
+        setTimeout(() => {
+          navigate("/certificate", {
+            state: {
+              email: email,
+              name: response.data.name,
+              school: response.data.School_name,
+              city: response.data.City_name,
+              className: response.data.Class,
+            },
+          });
+        }, 1500);
+
+        return false; // Email exists, don't continue with process
+      } else {
+        // Email doesn't exist, continue with form
+        setEmailChecked(true);
+        return true; // Email doesn't exist, continue with process
+      }
+    } catch (error) {
+      console.error("Error checking email:", error);
+      setSubmitStatus({
+        success: false,
+        message: `Error checking email: ${error.message}`,
+      });
+      return false; // Don't continue with process if there's an error
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const uploadPhoto = async () => {
     if (!imageFile) return;
 
+    // First check if email exists
+    const shouldContinue = await checkEmail();
+    if (!shouldContinue) return;
+
     setIsLoading(true);
     setProgress(0);
+    setSubmitStatus(null);
 
     try {
       // Set up progress simulation
@@ -105,13 +163,79 @@ function PhotoProcessor({ imageFile, onResultReceived, onError }) {
       if (onResultReceived) {
         onResultReceived(response);
       }
+
+      // Send the processed data to the backend API
+      await sendToBackend(response);
     } catch (error) {
       console.error("Error uploading image:", error);
       if (onError) {
         onError(error.message || "Failed to upload image");
       }
+      setSubmitStatus({
+        success: false,
+        message: `Error: ${error.message || "Failed to process image"}`,
+      });
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  // Function to send processed data to the backend API
+  const sendToBackend = async (data) => {
+    try {
+      // Transform the data to match the expected format
+      const transformedData = {
+        name: name,
+        email: email,
+        School_name: selectedSchool,
+        City_name: selectedCity,
+        Class: className,
+        Driven_by: data.Driven_by || [],
+        Activity: {
+          q1: data.Activity?.A || [],
+          q2: data.Activity?.B || [],
+          q3: data.Activity?.C || [],
+          q4: data.Activity?.D || [],
+          q5: data.Activity?.E || [],
+          q6: data.Activity?.F || [],
+          q7: data.Activity?.G || [],
+          q8: data.Activity?.H || [],
+          q9: data.Activity?.I || [],
+          q10: data.Activity?.J || [],
+          q11: data.Activity?.K || [],
+          q12: data.Activity?.L || [],
+        },
+        By_Child: data.By_Child || [],
+        By_Parents: data.By_Parents || [],
+      };
+
+      console.log("Sending data to backend:", transformedData);
+
+      // Send the data to the FastAPI backend
+      const response = await axios.post(
+        "http://127.0.0.1:8000/submit",
+        transformedData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("Backend response:", response.data);
+
+      setSubmitStatus({
+        success: true,
+        message: "Data successfully submitted to the system!",
+      });
+
+      // No automatic navigation to certificate page after submission
+    } catch (error) {
+      console.error("Error sending data to backend:", error);
+      setSubmitStatus({
+        success: false,
+        message: `Error submitting to backend: ${error.message}`,
+      });
     }
   };
 
@@ -130,6 +254,13 @@ function PhotoProcessor({ imageFile, onResultReceived, onError }) {
     setCityCode(value); // Ensure this is a string
   };
 
+  // Handle email blur to check if email exists
+  const handleEmailBlur = async () => {
+    if (email) {
+      await checkEmail();
+    }
+  };
+
   return (
     <div className="photo-processor">
       <div className="flex flex-col items-center">
@@ -146,6 +277,7 @@ function PhotoProcessor({ imageFile, onResultReceived, onError }) {
           onNameChange={setName}
           onClassChange={setClassName}
           onEmailChange={setEmail}
+          onEmailBlur={handleEmailBlur}
         />
         <button
           onClick={uploadPhoto}
@@ -222,6 +354,24 @@ function PhotoProcessor({ imageFile, onResultReceived, onError }) {
             </div>
             <p className="text-center text-sm mt-1">
               {progress}% {useMockData ? "Simulated" : "Uploaded"}
+            </p>
+          </div>
+        )}
+
+        {submitStatus && (
+          <div
+            className={`mt-4 w-full max-w-md p-3 rounded ${
+              submitStatus.success
+                ? "bg-green-100 border border-green-400"
+                : "bg-red-100 border border-red-400"
+            }`}
+          >
+            <p
+              className={`text-sm ${
+                submitStatus.success ? "text-green-700" : "text-red-700"
+              }`}
+            >
+              {submitStatus.message}
             </p>
           </div>
         )}
