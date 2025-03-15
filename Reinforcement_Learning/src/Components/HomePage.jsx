@@ -119,6 +119,7 @@ function HomePage() {
 
       <main className="flex-grow container mx-auto px-4 py-8 relative overflow-hidden">
         {/* Animated background elements */}
+
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <motion.div
             className="absolute top-1/4 right-1/4 opacity-10"
@@ -181,6 +182,39 @@ function HomePage() {
           transition={{ duration: 0.8 }}
           className="mb-12 text-center"
         >
+          <div className="absolute right-4 top-20 z-10 hidden md:block">
+            <div className="w-10 h-24 bg-gray-800 rounded-lg flex flex-col items-center justify-around p-1">
+              <motion.div
+                className="w-6 h-6 bg-red-500 rounded-full"
+                animate={{ opacity: [1, 0.3, 1] }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                }}
+              />
+              <motion.div
+                className="w-6 h-6 bg-yellow-400 rounded-full"
+                animate={{ opacity: [0.3, 1, 0.3] }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                  delay: 2,
+                }}
+              />
+              <motion.div
+                className="w-6 h-6 bg-green-500 rounded-full"
+                animate={{ opacity: [0.3, 1, 0.3] }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                  delay: 4,
+                }}
+              />
+            </div>
+          </div>
           <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4 relative inline-block">
             YOUNG INDIANS
             <div className="absolute -bottom-2 left-0 right-0 h-2 bg-gradient-to-r from-yellow-300 to-red-500 rounded-full"></div>
@@ -407,6 +441,132 @@ function HomePage() {
             </motion.div>
           )}
         </AnimatePresence>
+        <motion.div
+          className="absolute bottom-20 z-10 hidden md:block"
+          animate={{ x: [-100, window.innerWidth + 100] }}
+          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+        >
+          <svg
+            width="60"
+            height="40"
+            viewBox="0 0 60 40"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle
+              cx="10"
+              cy="30"
+              r="8"
+              stroke="#333"
+              strokeWidth="2"
+              fill="none"
+            />
+            <circle
+              cx="45"
+              cy="30"
+              r="8"
+              stroke="#333"
+              strokeWidth="2"
+              fill="none"
+            />
+            <motion.g
+              animate={{ rotate: [0, 360] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+              style={{ transformOrigin: "10px 30px" }}
+            >
+              <line
+                x1="10"
+                y1="30"
+                x2="10"
+                y2="22"
+                stroke="#333"
+                strokeWidth="2"
+              />
+              <line
+                x1="10"
+                y1="30"
+                x2="16"
+                y2="33"
+                stroke="#333"
+                strokeWidth="2"
+              />
+              <line
+                x1="10"
+                y1="30"
+                x2="4"
+                y2="33"
+                stroke="#333"
+                strokeWidth="2"
+              />
+            </motion.g>
+            <motion.g
+              animate={{ rotate: [0, 360] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+              style={{ transformOrigin: "45px 30px" }}
+            >
+              <line
+                x1="45"
+                y1="30"
+                x2="45"
+                y2="22"
+                stroke="#333"
+                strokeWidth="2"
+              />
+              <line
+                x1="45"
+                y1="30"
+                x2="51"
+                y2="33"
+                stroke="#333"
+                strokeWidth="2"
+              />
+              <line
+                x1="45"
+                y1="30"
+                x2="39"
+                y2="33"
+                stroke="#333"
+                strokeWidth="2"
+              />
+            </motion.g>
+            <line
+              x1="10"
+              y1="30"
+              x2="27"
+              y2="15"
+              stroke="#333"
+              strokeWidth="2"
+            />
+            <line
+              x1="45"
+              y1="30"
+              x2="27"
+              y2="15"
+              stroke="#333"
+              strokeWidth="2"
+            />
+            <line
+              x1="27"
+              y1="15"
+              x2="35"
+              y2="15"
+              stroke="#333"
+              strokeWidth="2"
+            />
+            <line
+              x1="35"
+              y1="15"
+              x2="45"
+              y2="30"
+              stroke="#333"
+              strokeWidth="2"
+            />
+            <rect x="34" y="10" width="2" height="5" fill="#333" />
+            <rect x="25" y="5" width="10" height="5" rx="2" fill="#f59e0b" />
+          </svg>
+        </motion.div>
+
+        {/* Animated Car */}
 
         {/* Road-themed decorative elements */}
         <div className="w-full max-w-5xl mt-16 opacity-20 pointer-events-none mx-auto">
