@@ -72,6 +72,11 @@ function PhotoUploader() {
   return (
     <div className="flex flex-col items-center justify-center">
       <div className="bg-white p-6 rounded-2xl shadow-md max-w-2xl w-full">
+        <PhotoProcessor
+          imageFile={selectedFile}
+          onResultReceived={handleResult}
+          onError={handleError}
+        />
         <h2 className="text-2xl font-bold mb-6 text-center text-blue-600">
           Your PDF
         </h2>
@@ -148,11 +153,6 @@ function PhotoUploader() {
               >
                 Remove
               </button>
-              <PhotoProcessor
-                imageFile={selectedFile}
-                onResultReceived={handleResult}
-                onError={handleError}
-              />
             </div>
           </div>
         )}
