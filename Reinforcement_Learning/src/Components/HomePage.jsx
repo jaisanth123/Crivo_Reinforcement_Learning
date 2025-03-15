@@ -1,18 +1,19 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 function HomePage() {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
-  const fileInputRef = useRef(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [activeCard, setActiveCard] = useState(null);
+  const fileInputRef = useRef(null);
   const [pulseEffect, setPulseEffect] = useState(true);
 
   // Animation effect when component mounts
   useEffect(() => {
     setIsLoaded(true);
 
-    // Create pulsing effect for the main button
+    // Create pulsing effect for the Road Signs card
     const pulseInterval = setInterval(() => {
       setPulseEffect((prev) => !prev);
     }, 2000);
@@ -20,7 +21,8 @@ function HomePage() {
     return () => clearInterval(pulseInterval);
   }, []);
 
-  const handleUploadClick = () => {
+  // Handle Road Signs card click (similar to original Start Your Adventure)
+  const handleRoadSignsClick = () => {
     setShowModal(true);
   };
 
@@ -44,147 +46,283 @@ function HomePage() {
     setShowModal(false);
   };
 
-  return (
-    <div className="flex flex-col w-full items-center justify-center min-h-[80vh] bg-gradient-to-b from-blue-50 to-purple-50 p-4">
-      {/* Animated background elements */}
-      <div className="absolute w-full h-full overflow-hidden z-0">
-        <div className="absolute top-1/4 left-10 w-12 h-12 rounded-full bg-yellow-200 opacity-50 animate-pulse"></div>
-        <div className="absolute top-3/4 right-10 w-16 h-16 rounded-full bg-blue-200 opacity-50 animate-pulse delay-100"></div>
-        <div className="absolute bottom-1/4 left-1/3 w-20 h-20 rounded-full bg-green-200 opacity-30 animate-pulse delay-200"></div>
-      </div>
+  // Handle quiz functionality
+  const handleQuiz = () => {
+    navigate("/road-signs/quiz");
+    setShowModal(false);
+  };
 
-      {/* Logo with entrance animation */}
-      <div
-        className={`mb-12 transform transition-all duration-1000 ${
-          isLoaded ? "scale-100 opacity-100" : "scale-50 opacity-0"
-        }`}
-      >
-        <div className="relative">
-          <img
-            src="https://cdn-icons-png.flaticon.com/512/2362/2362200.png"
-            alt="Kids with camera"
-            className="w-48 h-48 mx-auto drop-shadow-xl rounded-full border-4 border-white"
+  // Navigation options
+  const cardOptions = [
+    {
+      id: 1,
+      title: "Chota Cop",
+      description: "Learn important road signs and Response you ride",
+      color: "from-red-500 to-orange-400",
+      hoverColor: "from-red-600 to-orange-500",
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-12 w-12"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
           />
-          <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-2 rounded-full text-lg font-bold shadow-lg">
-            Road Safety
-          </div>
-        </div>
-      </div>
+        </svg>
+      ),
+      specialAction: handleRoadSignsClick,
+      isPulsing: pulseEffect,
+    },
+    {
+      id: 2,
+      title: "Crossing Streets",
+      description: "Learn how to cross streets safely",
+      color: "from-green-500 to-teal-400",
+      hoverColor: "from-green-600 to-teal-500",
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-12 w-12"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+          />
+        </svg>
+      ),
+      path: "/crossing-streets",
+    },
+    {
+      id: 3,
+      title: "Bike Safety",
+      description: "Tips for riding your bike safely",
+      color: "from-blue-500 to-indigo-400",
+      hoverColor: "from-blue-600 to-indigo-500",
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-12 w-12"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"
+          />
+        </svg>
+      ),
+      path: "/bike-safety",
+    },
+    {
+      id: 4,
+      title: "Car Safety",
+      description: "Learn about seatbelts and car safety",
+      color: "from-purple-500 to-pink-400",
+      hoverColor: "from-purple-600 to-pink-500",
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-12 w-12"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"
+          />
+        </svg>
+      ),
+      path: "/car-safety",
+    },
+  ];
 
-      {/* Main action button with animation */}
-      <button
-        onClick={handleLocalUpload}
-        className={`bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 
-                   text-white font-bold py-4 px-8 rounded-full text-xl shadow-xl 
-                   transform transition-all duration-300 hover:scale-105 z-10
-                   ${pulseEffect ? "animate-pulse" : ""} 
-                   ${
-                     isLoaded
-                       ? "translate-y-0 opacity-100"
-                       : "translate-y-10 opacity-0"
-                   }`}
-      >
-        <span className="flex items-center justify-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6 mr-2"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
-            />
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-          Start Your Adventure!
-        </span>
-      </button>
+  const handleCardClick = (card) => {
+    if (card.specialAction) {
+      card.specialAction();
+    } else if (card.path) {
+      navigate(card.path);
+    }
+  };
 
-      {/* Features highlight - appears after main UI loads */}
-      <div
-        className={`mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl transition-all duration-1000 delay-500 
-                      ${
-                        isLoaded
-                          ? "translate-y-0 opacity-100"
-                          : "translate-y-10 opacity-0"
-                      }`}
-      >
-        <div className="bg-white bg-opacity-80 backdrop-blur-sm p-6 rounded-2xl shadow-lg flex flex-col items-center text-center transform transition hover:scale-105 hover:shadow-xl">
-          <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mb-4">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-8 w-8 text-blue-600"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+  return (
+    <div className="flex flex-col min-h-screen bg-gradient-to-b from-blue-50 to-purple-50">
+      {/* Navbar */}
+      <nav className="bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center">
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/2362/2362200.png"
+                alt="Kids Safety"
+                className="h-10 w-10 rounded-full bg-white p-1"
               />
-            </svg>
+              <span className="ml-3 text-xl font-bold">
+                Road Safety for Kids
+              </span>
+            </div>
+            <div className="hidden md:block">
+              <div className="ml-10 flex items-baseline space-x-4">
+                <a
+                  href="#"
+                  className="px-3 py-2 rounded-md text-sm font-medium bg-blue-700"
+                >
+                  Home
+                </a>
+                <a
+                  href="#"
+                  className="px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-700"
+                >
+                  About
+                </a>
+                <a
+                  href="#"
+                  className="px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-700"
+                >
+                  Contact
+                </a>
+              </div>
+            </div>
           </div>
-          <h3 className="text-lg font-bold text-gray-800 mb-2">
-            Safe Learning
-          </h3>
-          <p className="text-gray-600">Learn road safety with fun activities</p>
+        </div>
+      </nav>
+
+      {/* Main content */}
+      <main className="flex-grow container mx-auto px-4 py-8">
+        {/* Hero section with animation */}
+        <div
+          className={`mb-12 text-center transition-all duration-1000 transform ${
+            isLoaded ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+          }`}
+        >
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4 relative inline-block">
+            YOUNG INDIANS
+            <div className="absolute -bottom-2 left-0 right-0 h-2 bg-gradient-to-r from-yellow-300 to-red-500 rounded-full"></div>
+          </h1>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Learn how to stay safe on the road with fun interactive lessons!
+          </p>
         </div>
 
-        <div className="bg-white bg-opacity-80 backdrop-blur-sm p-6 rounded-2xl shadow-lg flex flex-col items-center text-center transform transition hover:scale-105 hover:shadow-xl">
-          <div className="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center mb-4">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-8 w-8 text-purple-600"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+        {/* Four card options with animations */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+          {cardOptions.map((card, index) => (
+            <div
+              key={card.id}
+              className={`bg-white rounded-2xl shadow-xl overflow-hidden transform transition-all duration-500 ${
+                isLoaded
+                  ? "translate-y-0 opacity-100"
+                  : "translate-y-20 opacity-0"
+              } ${card.id === 1 ? "border-2 border-yellow-400" : ""}`}
+              style={{ transitionDelay: `${index * 150}ms` }}
+              onMouseEnter={() => setActiveCard(card.id)}
+              onMouseLeave={() => setActiveCard(null)}
+              onClick={() => handleCardClick(card)}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-              />
-            </svg>
-          </div>
-          <h3 className="text-lg font-bold text-gray-800 mb-2">
-            Interactive Lessons
-          </h3>
-          <p className="text-gray-600">Engaging content for all ages</p>
+              <div
+                className={`h-40 bg-gradient-to-br ${
+                  activeCard === card.id ? card.hoverColor : card.color
+                } flex items-center justify-center p-6 transition-all duration-300 ${
+                  card.id === 1 && card.isPulsing ? "animate-pulse" : ""
+                }`}
+              >
+                <div className="text-white transform transition-all duration-500 hover:scale-110">
+                  {card.icon}
+                </div>
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-gray-800 mb-2">
+                  {card.title}
+                </h3>
+                <p className="text-gray-600">{card.description}</p>
+                <button
+                  className={`mt-4 w-full py-2 rounded-lg bg-gradient-to-r ${
+                    card.color
+                  } text-white font-semibold transform transition-all duration-300 hover:scale-105 ${
+                    card.id === 1 ? "flex items-center justify-center" : ""
+                  }`}
+                >
+                  {card.id === 1 && (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5 mr-2"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                  )}
+                  Start Learning
+                </button>
+              </div>
+
+              {/* Animated indicator */}
+              <div
+                className={`h-1 bg-gradient-to-r ${
+                  card.color
+                } transform transition-all duration-500 ${
+                  activeCard === card.id ? "scale-x-100" : "scale-x-0"
+                }`}
+              ></div>
+            </div>
+          ))}
         </div>
 
-        <div className="bg-white bg-opacity-80 backdrop-blur-sm p-6 rounded-2xl shadow-lg flex flex-col items-center text-center transform transition hover:scale-105 hover:shadow-xl">
-          <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mb-4">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-8 w-8 text-green-600"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
-              />
-            </svg>
-          </div>
-          <h3 className="text-lg font-bold text-gray-800 mb-2">Earn Badges</h3>
-          <p className="text-gray-600">Complete challenges to win rewards</p>
+        {/* Animated floating elements in the background */}
+        <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+          <div className="absolute top-1/4 left-10 w-16 h-16 rounded-full bg-yellow-200 opacity-20 animate-pulse"></div>
+          <div className="absolute top-3/4 right-10 w-20 h-20 rounded-full bg-blue-200 opacity-20 animate-pulse delay-100"></div>
+          <div className="absolute bottom-1/4 left-1/3 w-24 h-24 rounded-full bg-green-200 opacity-10 animate-pulse delay-200"></div>
+          <div className="absolute top-1/2 right-1/4 w-16 h-16 rounded-full bg-purple-200 opacity-15 animate-pulse delay-300"></div>
         </div>
-      </div>
+      </main>
+
+      {/* Footer with wave effect */}
+      <footer className="bg-gradient-to-r from-purple-600 to-blue-600 text-white relative">
+        <div className="absolute top-0 w-full h-6 overflow-hidden">
+          <div
+            className="absolute left-0 w-full h-full"
+            style={{
+              transform: "rotate(180deg)",
+              clipPath:
+                "polygon(0% 0%, 5% 100%, 10% 0%, 15% 100%, 20% 0%, 25% 100%, 30% 0%, 35% 100%, 40% 0%, 45% 100%, 50% 0%, 55% 100%, 60% 0%, 65% 100%, 70% 0%, 75% 100%, 80% 0%, 85% 100%, 90% 0%, 95% 100%, 100% 0%)",
+            }}
+          ></div>
+        </div>
+        <div className="container mx-auto px-4 py-10">
+          <div className="text-center">
+            <p>© 2025 Road Safety for Kids. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
 
       {/* Hidden file input - keeping this for backward compatibility */}
       <input
@@ -195,23 +333,24 @@ function HomePage() {
         className="hidden"
       />
 
-      {/* Enhanced modal with animations */}
+      {/* Enhanced modal with animations - appears when Road Signs card is clicked */}
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn">
+        <div className="fixed inset-0  bg-opacity-70 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn">
           <div className="bg-white p-8 rounded-3xl shadow-2xl max-w-md w-full transform transition-all animate-scaleIn">
-            <h2 className="text-2xl font-bold mb-6 text-center bg-gradient-to-r from-purple-600 to-blue-600 text-transparent bg-clip-text">
-              Choose Your Path!
+            <h2 className="text-2xl font-bold mb-6 text-center bg-gradient-to-r from-red-600 to-orange-500 text-transparent bg-clip-text">
+              Road Safety Learning Path!
             </h2>
 
-            <div className="grid grid-cols-1 gap-6 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              {/* Card 1: Road Sign Gallery (existing functionality) */}
               <div
                 onClick={handleLocalUpload}
-                className="flex flex-col items-center p-6 border-2 border-green-300 rounded-2xl cursor-pointer hover:bg-green-50 transition-all hover:shadow-lg"
+                className="flex flex-col items-center p-6 border-2 border-red-300 rounded-2xl cursor-pointer hover:bg-red-50 transition-all hover:shadow-lg"
               >
-                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-4 animate-pulse">
+                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4 animate-pulse">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-10 w-10 text-green-600"
+                    className="h-8 w-8 text-red-600"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -224,11 +363,40 @@ function HomePage() {
                     />
                   </svg>
                 </div>
-                <span className="font-bold text-xl text-green-600 mb-2">
-                  Photo Gallery
+                <span className="font-bold text-lg text-red-600 mb-1">
+                  Chota cop
                 </span>
-                <p className="text-gray-500 text-center">
-                  Choose photos from your device
+                {/* <p className="text-gray-500 text-center text-sm">
+                  Learn about important road signs with pictures
+                </p> */}
+              </div>
+
+              {/* Card 2: Quiz (new functionality) */}
+              <div
+                onClick={handleQuiz}
+                className="flex flex-col items-center p-6 border-2 border-orange-300 rounded-2xl cursor-pointer hover:bg-orange-50 transition-all hover:shadow-lg"
+              >
+                <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-4 animate-pulse">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-8 w-8 text-orange-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    />
+                  </svg>
+                </div>
+                <span className="font-bold text-lg text-orange-600 mb-1">
+                  Road Signs Quiz
+                </span>
+                <p className="text-gray-500 text-center text-sm">
+                  Test your knowledge with fun quizzes
                 </p>
               </div>
             </div>
@@ -242,22 +410,6 @@ function HomePage() {
           </div>
         </div>
       )}
-
-      {/* Animated decorative elements - only visible after page loads */}
-      <div
-        className={`fixed bottom-0 left-0 w-full h-16 bg-gradient-to-r from-purple-500 to-blue-500 transition-all duration-1000 delay-700
-                      ${isLoaded ? "opacity-100" : "opacity-0"}`}
-      >
-        <div className="absolute top-0 w-full h-4 overflow-hidden">
-          <div
-            className="absolute left-0 w-full h-full bg-white opacity-20"
-            style={{
-              clipPath:
-                "polygon(0% 0%, 5% 100%, 10% 0%, 15% 100%, 20% 0%, 25% 100%, 30% 0%, 35% 100%, 40% 0%, 45% 100%, 50% 0%, 55% 100%, 60% 0%, 65% 100%, 70% 0%, 75% 100%, 80% 0%, 85% 100%, 90% 0%, 95% 100%, 100% 0%)",
-            }}
-          ></div>
-        </div>
-      </div>
     </div>
   );
 }
