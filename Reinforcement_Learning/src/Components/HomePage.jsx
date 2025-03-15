@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import PhotoUploader from "./PhotoUploader";
+import RoadSigns from "./RoadSigns";
 
 function HomePage() {
   const navigate = useNavigate();
@@ -118,8 +119,10 @@ function HomePage() {
       </nav>
 
       <main className="flex-grow container mx-auto px-4 py-8 relative overflow-hidden">
-        {/* Animated background elements */}
+        {/* Road Signs Component */}
+        <RoadSigns />
 
+        {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <motion.div
             className="absolute top-1/4 right-1/4 opacity-10"
