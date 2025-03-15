@@ -239,9 +239,7 @@ const CityDropdown = ({
             <div className="text-orange-500 mr-2">
               <NameIcon />
             </div>
-            <label className="font-medium text-orange-800">
-              What's your name?
-            </label>
+            <label className="font-medium text-orange-800">Name:</label>
           </div>
           <input
             type="text"
@@ -252,39 +250,12 @@ const CityDropdown = ({
           />
         </div>
 
-        <div className="bg-white p-4 rounded-lg shadow-md border-2 border-green-300">
-          <div className="flex items-center mb-2">
-            <div className="text-green-500 mr-2">
-              <ClassIcon />
-            </div>
-            <label className="font-medium text-green-800">
-              Which class are you in?
-            </label>
-          </div>
-          <input
-            type="text"
-            value={className || ""}
-            onChange={(e) => validateClass(e.target.value)}
-            placeholder="Example: Class 5"
-            className={`w-full px-4 py-3 rounded-xl border-2 ${
-              classError
-                ? "border-red-400"
-                : "border-green-200 focus:border-green-400"
-            } focus:outline-none text-lg`}
-          />
-          {classError && (
-            <p className="text-red-500 text-sm mt-2">{classError}</p>
-          )}
-        </div>
-
         <div className="bg-white p-4 rounded-lg shadow-md border-2 border-blue-300">
           <div className="flex items-center mb-2">
             <div className="text-blue-500 mr-2">
               <EmailIcon />
             </div>
-            <label className="font-medium text-blue-800">
-              Your email address
-            </label>
+            <label className="font-medium text-blue-800">Email:</label>
           </div>
           <input
             type="email"
@@ -302,14 +273,35 @@ const CityDropdown = ({
           )}
         </div>
 
+        <div className="bg-white p-4 rounded-lg shadow-md border-2 border-green-300">
+          <div className="flex items-center mb-2">
+            <div className="text-green-500 mr-2">
+              <ClassIcon />
+            </div>
+            <label className="font-medium text-green-800">Class:</label>
+          </div>
+          <input
+            type="text"
+            value={className || ""}
+            onChange={(e) => validateClass(e.target.value)}
+            placeholder="Example: Class 5"
+            className={`w-full px-4 py-3 rounded-xl border-2 ${
+              classError
+                ? "border-red-400"
+                : "border-green-200 focus:border-green-400"
+            } focus:outline-none text-lg`}
+          />
+          {classError && (
+            <p className="text-red-500 text-sm mt-2">{classError}</p>
+          )}
+        </div>
+
         <div className="bg-white p-4 rounded-lg shadow-md border-2 border-purple-300">
           <div className="flex items-center mb-2">
             <div className="text-purple-500 mr-2">
               <CityIcon />
             </div>
-            <label className="font-medium text-purple-800">
-              Which city do you live in?
-            </label>
+            <label className="font-medium text-purple-800">City:</label>
           </div>
           <select
             value={selectedCity || ""}
@@ -330,9 +322,7 @@ const CityDropdown = ({
             <div className="text-red-500 mr-2">
               <SchoolIcon />
             </div>
-            <label className="font-medium text-red-800">
-              Which school do you go to?
-            </label>
+            <label className="font-medium text-red-800">School:</label>
           </div>
           <select
             value={selectedSchool || ""}

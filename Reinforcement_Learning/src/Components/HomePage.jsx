@@ -1,65 +1,51 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import PhotoUploader from "./PhotoUploader";
 
 function HomePage() {
   const navigate = useNavigate();
-  const [showModal, setShowModal] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [activeCard, setActiveCard] = useState(null);
-  const fileInputRef = useRef(null);
-  const [pulseEffect, setPulseEffect] = useState(true);
+  const [showUploadComponent, setShowUploadComponent] = useState(false);
+  const [showPhotoUploader, setShowPhotoUploader] = useState(false);
+  const [showQuizPopup, setShowQuizPopup] = useState(false);
 
   // Animation effect when component mounts
   useEffect(() => {
     setIsLoaded(true);
-
-    // Create pulsing effect for the Road Signs card
-    const pulseInterval = setInterval(() => {
-      setPulseEffect((prev) => !prev);
-    }, 2000);
-
-    return () => clearInterval(pulseInterval);
   }, []);
 
-  // Handle Road Signs card click (similar to original Start Your Adventure)
-  const handleRoadSignsClick = () => {
-    setShowModal(true);
+  // Handle Chota Cop card click
+  const handleChotaCopClick = () => {
+    setShowUploadComponent(true);
+    setShowPhotoUploader(true);
   };
 
-  const handleLocalUpload = () => {
-    // Navigate to the photo upload page instead of triggering file input
-    navigate("/photo/upload");
-    setShowModal(false);
+  // Handle Safety Quiz card click
+  const handleSafetyQuizClick = () => {
+    setShowQuizPopup(true);
   };
 
-  const handleFileSelected = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      // Navigate to upload page with the selected file
-      navigate("/photo/upload", {
-        state: { selectedFile: e.target.files[0] },
-      });
-    }
+  // Handle closing the PhotoUploader
+  const handleClosePhotoUploader = () => {
+    setShowPhotoUploader(false);
+    setShowUploadComponent(false);
   };
 
-  const handleCameraCapture = () => {
-    navigate("/photo/camera");
-    setShowModal(false);
+  // Handle closing the Quiz popup
+  const handleCloseQuizPopup = () => {
+    setShowQuizPopup(false);
   };
 
-  // Handle quiz functionality
-  const handleQuiz = () => {
-    navigate("/road-signs/quiz");
-    setShowModal(false);
-  };
-
-  // Navigation options
+  // Card options
   const cardOptions = [
     {
       id: 1,
       title: "Chota Cop",
-      description: "Learn important road signs and Response you ride",
-      color: "from-red-500 to-orange-400",
-      hoverColor: "from-red-600 to-orange-500",
+      description: "Learn important road signs and keep safe while you ride",
+      color: "from-yellow-400 to-yellow-500",
+      hoverColor: "from-yellow-500 to-yellow-600",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -76,15 +62,14 @@ function HomePage() {
           />
         </svg>
       ),
-      specialAction: handleRoadSignsClick,
-      isPulsing: pulseEffect,
+      action: handleChotaCopClick,
     },
     {
       id: 2,
-      title: "Crossing Streets",
-      description: "Learn how to cross streets safely",
-      color: "from-green-500 to-teal-400",
-      hoverColor: "from-green-600 to-teal-500",
+      title: "Safety Quiz",
+      description: "Test your knowledge with fun interactive quizzes",
+      color: "from-green-400 to-green-500",
+      hoverColor: "from-green-500 to-green-600",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -97,171 +82,287 @@ function HomePage() {
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth={2}
-            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
           />
         </svg>
       ),
-      path: "/crossing-streets",
-    },
-    {
-      id: 3,
-      title: "Bike Safety",
-      description: "Tips for riding your bike safely",
-      color: "from-blue-500 to-indigo-400",
-      hoverColor: "from-blue-600 to-indigo-500",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-12 w-12"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"
-          />
-        </svg>
-      ),
-      path: "/bike-safety",
-    },
-    {
-      id: 4,
-      title: "Car Safety",
-      description: "Learn about seatbelts and car safety",
-      color: "from-purple-500 to-pink-400",
-      hoverColor: "from-purple-600 to-pink-500",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-12 w-12"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"
-          />
-        </svg>
-      ),
-      path: "/car-safety",
+      action: handleSafetyQuizClick,
     },
   ];
 
-  const handleCardClick = (card) => {
-    if (card.specialAction) {
-      card.specialAction();
-    } else if (card.path) {
-      navigate(card.path);
-    }
-  };
-
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-b from-blue-50 to-purple-50">
+    <div className="min-h-screen flex flex-col bg-gray-50">
       {/* Navbar */}
-      <nav className="bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center">
-              <img
-                src="https://cdn-icons-png.flaticon.com/512/2362/2362200.png"
-                alt="Kids Safety"
-                className="h-10 w-10 rounded-full bg-white p-1"
-              />
-              <span className="ml-3 text-xl font-bold">
-                Road Safety for Kids
-              </span>
-            </div>
-            <div className="hidden md:block">
-              <div className="ml-10 flex items-baseline space-x-4">
-                <a
-                  href="#"
-                  className="px-3 py-2 rounded-md text-sm font-medium bg-blue-700"
-                >
-                  Home
-                </a>
-                <a
-                  href="#"
-                  className="px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-700"
-                >
-                  About
-                </a>
-                <a
-                  href="#"
-                  className="px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-700"
-                >
-                  Contact
-                </a>
-              </div>
-            </div>
+      <nav className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white shadow-md">
+        <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/2554/2554966.png"
+              alt="Logo"
+              className="h-10 w-10"
+            />
+            <span className="font-bold text-xl">Road Safety for Kids</span>
+          </div>
+          <div className="hidden md:flex space-x-4">
+            <a href="#" className="hover:text-yellow-200 transition-colors">
+              Home
+            </a>
+            <a href="#" className="hover:text-yellow-200 transition-colors">
+              About
+            </a>
+            <a href="#" className="hover:text-yellow-200 transition-colors">
+              Contact
+            </a>
           </div>
         </div>
       </nav>
 
-      {/* Main content */}
-      <main className="flex-grow container mx-auto px-4 py-8">
+      <main className="flex-grow container mx-auto px-4 py-8 relative overflow-hidden">
+        {/* Animated background elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <motion.div
+            className="absolute top-1/4 right-1/4 opacity-10"
+            animate={{
+              x: [0, 30, 0],
+              rotate: [0, 10, 0],
+            }}
+            transition={{ repeat: Infinity, duration: 5 }}
+          >
+            <svg
+              width="80"
+              height="80"
+              viewBox="0 0 100 100"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle
+                cx="50"
+                cy="50"
+                r="45"
+                fill="#FF0000"
+                stroke="#FFFFFF"
+                strokeWidth="5"
+              />
+              <rect x="20" y="45" width="60" height="10" fill="#FFFFFF" />
+            </svg>
+          </motion.div>
+
+          <motion.div
+            className="absolute top-1/2 left-1/4 opacity-10"
+            animate={{
+              x: [0, 30, 0],
+              rotate: [0, 10, 0],
+            }}
+            transition={{ repeat: Infinity, duration: 7, delay: 0.5 }}
+          >
+            <svg
+              width="80"
+              height="80"
+              viewBox="0 0 100 100"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle
+                cx="50"
+                cy="50"
+                r="45"
+                fill="#FFFF00"
+                stroke="#000000"
+                strokeWidth="5"
+              />
+            </svg>
+          </motion.div>
+        </div>
+
         {/* Hero section with animation */}
-        <div
-          className={`mb-12 text-center transition-all duration-1000 transform ${
-            isLoaded ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
-          }`}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="mb-12 text-center"
         >
           <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4 relative inline-block">
             YOUNG INDIANS
             <div className="absolute -bottom-2 left-0 right-0 h-2 bg-gradient-to-r from-yellow-300 to-red-500 rounded-full"></div>
           </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-8">
             Learn how to stay safe on the road with fun interactive lessons!
           </p>
+        </motion.div>
+
+        {/* Cards and PhotoUploader container */}
+        <div className="w-full max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-0">
+            {/* Cards section */}
+            <div
+              className={`${
+                showPhotoUploader ? "md:col-span-5" : "md:col-span-12"
+              }`}
+            >
+              <div className="flex flex-col md:flex-row justify-center md:justify-center items-center md:space-x-6 space-y-6 md:space-y-0">
+                <AnimatePresence>
+                  {cardOptions.map(
+                    (card, index) =>
+                      (!showUploadComponent || card.id === 1) && (
+                        <motion.div
+                          key={card.id}
+                          initial={{ opacity: 0, y: 50 }}
+                          animate={{
+                            opacity: 1,
+                            y: 0,
+                            x: showUploadComponent && card.id === 1 ? -20 : 0,
+                            scale:
+                              showUploadComponent && card.id === 1 ? 0.9 : 1,
+                          }}
+                          exit={{
+                            opacity: 0,
+                            x: card.id === 1 ? -300 : 300,
+                            transition: { duration: 0.5 },
+                          }}
+                          transition={{
+                            duration: 0.5,
+                            delay: index * 0.2,
+                          }}
+                          whileHover={{
+                            scale: 1.05,
+                            boxShadow:
+                              "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+                          }}
+                          className="bg-white rounded-2xl shadow-xl overflow-hidden w-full max-w-xs cursor-pointer"
+                          onMouseEnter={() => setActiveCard(card.id)}
+                          onMouseLeave={() => setActiveCard(null)}
+                          onClick={card.action}
+                        >
+                          <div
+                            className={`h-40 bg-gradient-to-br ${
+                              activeCard === card.id
+                                ? card.hoverColor
+                                : card.color
+                            } flex items-center justify-center p-6 transition-all duration-300`}
+                          >
+                            <motion.div
+                              className="text-white"
+                              whileHover={{ rotate: 10, scale: 1.2 }}
+                              transition={{ type: "spring", stiffness: 300 }}
+                            >
+                              {card.icon}
+                            </motion.div>
+                          </div>
+                          <div className="p-6">
+                            <h3 className="text-xl font-bold text-gray-800 mb-2">
+                              {card.title}
+                            </h3>
+                            <p className="text-gray-600 text-sm mb-4">
+                              {card.description}
+                            </p>
+                            <motion.button
+                              whileHover={{ scale: 1.05 }}
+                              whileTap={{ scale: 0.95 }}
+                              className={`w-full py-2 rounded-lg bg-gradient-to-r ${card.color} text-white font-semibold flex items-center justify-center`}
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-5 w-5 mr-2"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+                                />
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                />
+                              </svg>
+                              Start Now
+                            </motion.button>
+                          </div>
+
+                          {/* Animated indicator */}
+                          <motion.div
+                            initial={{ scaleX: 0 }}
+                            animate={{ scaleX: activeCard === card.id ? 1 : 0 }}
+                            className={`h-1 bg-gradient-to-r ${card.color} origin-left`}
+                          ></motion.div>
+                        </motion.div>
+                      )
+                  )}
+                </AnimatePresence>
+              </div>
+            </div>
+
+            {/* PhotoUploader section */}
+            {showPhotoUploader && (
+              <motion.div
+                className="md:col-span-7"
+                initial={{ opacity: 0, x: 300 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+              >
+                <div className="bg-white rounded-2xl w-120 shadow-xl overflow-hidden">
+                  <div className="h-12 bg-gradient-to-r from-yellow-500 to-yellow-600 flex items-center justify-between px-4">
+                    <h3 className="text-white font-bold">
+                      Chota Cop - Upload Your PDF
+                    </h3>
+                    <button
+                      onClick={handleClosePhotoUploader}
+                      className="text-white hover:text-yellow-200"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                  <div className="p-4">
+                    <PhotoUploader />
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </div>
         </div>
 
-        {/* Four card options with animations */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-          {cardOptions.map((card, index) => (
-            <div
-              key={card.id}
-              className={`bg-white rounded-2xl shadow-xl overflow-hidden transform transition-all duration-500 ${
-                isLoaded
-                  ? "translate-y-0 opacity-100"
-                  : "translate-y-20 opacity-0"
-              } ${card.id === 1 ? "border-2 border-yellow-400" : ""}`}
-              style={{ transitionDelay: `${index * 150}ms` }}
-              onMouseEnter={() => setActiveCard(card.id)}
-              onMouseLeave={() => setActiveCard(null)}
-              onClick={() => handleCardClick(card)}
+        {/* Quiz Coming Soon Popup */}
+        <AnimatePresence>
+          {showQuizPopup && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0  backdrop:blur-md bg-opacity-50 z-50 flex items-center justify-center p-4"
             >
-              <div
-                className={`h-40 bg-gradient-to-br ${
-                  activeCard === card.id ? card.hoverColor : card.color
-                } flex items-center justify-center p-6 transition-all duration-300 ${
-                  card.id === 1 && card.isPulsing ? "animate-pulse" : ""
-                }`}
+              <motion.div
+                initial={{ scale: 0.9, y: 20 }}
+                animate={{ scale: 1, y: 0 }}
+                exit={{ scale: 0.9, y: 20 }}
+                className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden"
               >
-                <div className="text-white transform transition-all duration-500 hover:scale-110">
-                  {card.icon}
-                </div>
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-800 mb-2">
-                  {card.title}
-                </h3>
-                <p className="text-gray-600">{card.description}</p>
-                <button
-                  className={`mt-4 w-full py-2 rounded-lg bg-gradient-to-r ${
-                    card.color
-                  } text-white font-semibold transform transition-all duration-300 hover:scale-105 ${
-                    card.id === 1 ? "flex items-center justify-center" : ""
-                  }`}
-                >
-                  {card.id === 1 && (
+                <div className="h-12 bg-gradient-to-r from-green-500 to-green-600 flex items-center justify-between px-4">
+                  <h3 className="text-white font-bold">Safety Quiz</h3>
+                  <button
+                    onClick={handleCloseQuizPopup}
+                    className="text-white hover:text-green-200"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 mr-2"
+                      className="h-6 w-6"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -270,43 +371,81 @@ function HomePage() {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth={2}
-                        d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
-                      />
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        d="M6 18L18 6M6 6l12 12"
                       />
                     </svg>
-                  )}
-                  Start Learning
-                </button>
+                  </button>
+                </div>
+                <div className="p-6">
+                  <div className="flex justify-center mb-4">
+                    <img
+                      src="https://cdn-icons-png.flaticon.com/512/2995/2995620.png"
+                      alt="Children Quiz"
+                      className="w-32 h-32"
+                    />
+                  </div>
+                  <h2 className="text-2xl font-bold text-center text-gray-800 mb-4">
+                    Coming Soon!
+                  </h2>
+                  <p className="text-gray-600 text-center mb-6">
+                    Our interactive road safety quiz for children is under
+                    development. Check back soon to test your knowledge and
+                    learn more about staying safe on the roads!
+                  </p>
+                  <div className="flex justify-center">
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={handleCloseQuizPopup}
+                      className="px-6 py-2 bg-gradient-to-r from-green-400 to-green-500 text-white rounded-lg font-medium"
+                    >
+                      I'll check back later
+                    </motion.button>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Road-themed decorative elements */}
+        <div className="w-full max-w-5xl mt-16 opacity-20 pointer-events-none mx-auto">
+          <div className="h-6 bg-gray-800 relative">
+            <div className="absolute inset-0 flex justify-center items-center">
+              <div className="w-1/2 h-2 bg-yellow-400 flex">
+                <motion.div
+                  className="w-1/6 h-full bg-yellow-400 mr-4"
+                  animate={{ x: [-100, 300], opacity: [0, 1, 1, 0] }}
+                  transition={{ repeat: Infinity, duration: 3, ease: "linear" }}
+                />
+                <motion.div
+                  className="w-1/6 h-full bg-yellow-400 mr-4"
+                  animate={{ x: [-100, 300], opacity: [0, 1, 1, 0] }}
+                  transition={{
+                    repeat: Infinity,
+                    duration: 3,
+                    delay: 1,
+                    ease: "linear",
+                  }}
+                />
+                <motion.div
+                  className="w-1/6 h-full bg-yellow-400"
+                  animate={{ x: [-100, 300], opacity: [0, 1, 1, 0] }}
+                  transition={{
+                    repeat: Infinity,
+                    duration: 3,
+                    delay: 2,
+                    ease: "linear",
+                  }}
+                />
               </div>
-
-              {/* Animated indicator */}
-              <div
-                className={`h-1 bg-gradient-to-r ${
-                  card.color
-                } transform transition-all duration-500 ${
-                  activeCard === card.id ? "scale-x-100" : "scale-x-0"
-                }`}
-              ></div>
             </div>
-          ))}
-        </div>
-
-        {/* Animated floating elements in the background */}
-        <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-          <div className="absolute top-1/4 left-10 w-16 h-16 rounded-full bg-yellow-200 opacity-20 animate-pulse"></div>
-          <div className="absolute top-3/4 right-10 w-20 h-20 rounded-full bg-blue-200 opacity-20 animate-pulse delay-100"></div>
-          <div className="absolute bottom-1/4 left-1/3 w-24 h-24 rounded-full bg-green-200 opacity-10 animate-pulse delay-200"></div>
-          <div className="absolute top-1/2 right-1/4 w-16 h-16 rounded-full bg-purple-200 opacity-15 animate-pulse delay-300"></div>
+          </div>
         </div>
       </main>
 
       {/* Footer with wave effect */}
-      <footer className="bg-gradient-to-r from-purple-600 to-blue-600 text-white relative">
+      <footer className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white relative mt-16">
         <div className="absolute top-0 w-full h-6 overflow-hidden">
           <div
             className="absolute left-0 w-full h-full"
@@ -323,93 +462,6 @@ function HomePage() {
           </div>
         </div>
       </footer>
-
-      {/* Hidden file input - keeping this for backward compatibility */}
-      <input
-        type="file"
-        ref={fileInputRef}
-        onChange={handleFileSelected}
-        accept="image/*"
-        className="hidden"
-      />
-
-      {/* Enhanced modal with animations - appears when Road Signs card is clicked */}
-      {showModal && (
-        <div className="fixed inset-0  bg-opacity-70 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn">
-          <div className="bg-white p-8 rounded-3xl shadow-2xl max-w-md w-full transform transition-all animate-scaleIn">
-            <h2 className="text-2xl font-bold mb-6 text-center bg-gradient-to-r from-red-600 to-orange-500 text-transparent bg-clip-text">
-              Road Safety Learning Path!
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-              {/* Card 1: Road Sign Gallery (existing functionality) */}
-              <div
-                onClick={handleLocalUpload}
-                className="flex flex-col items-center p-6 border-2 border-red-300 rounded-2xl cursor-pointer hover:bg-red-50 transition-all hover:shadow-lg"
-              >
-                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4 animate-pulse">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-8 w-8 text-red-600"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                    />
-                  </svg>
-                </div>
-                <span className="font-bold text-lg text-red-600 mb-1">
-                  Chota cop
-                </span>
-                {/* <p className="text-gray-500 text-center text-sm">
-                  Learn about important road signs with pictures
-                </p> */}
-              </div>
-
-              {/* Card 2: Quiz (new functionality) */}
-              <div
-                onClick={handleQuiz}
-                className="flex flex-col items-center p-6 border-2 border-orange-300 rounded-2xl cursor-pointer hover:bg-orange-50 transition-all hover:shadow-lg"
-              >
-                <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-4 animate-pulse">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-8 w-8 text-orange-600"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                    />
-                  </svg>
-                </div>
-                <span className="font-bold text-lg text-orange-600 mb-1">
-                  Road Signs Quiz
-                </span>
-                <p className="text-gray-500 text-center text-sm">
-                  Test your knowledge with fun quizzes
-                </p>
-              </div>
-            </div>
-
-            <button
-              onClick={() => setShowModal(false)}
-              className="w-full py-3 px-4 bg-gradient-to-r from-gray-200 to-gray-300 hover:from-gray-300 hover:to-gray-400 text-gray-700 font-medium rounded-xl transition transform hover:scale-105"
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

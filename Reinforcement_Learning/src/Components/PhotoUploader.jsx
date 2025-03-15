@@ -9,6 +9,7 @@ import CityDropdown from "./CityDropdown";
 import certificateImage from "../Components/Chota Cop Certificate.png";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
+import { motion } from "framer-motion";
 
 function PhotoUploader() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -450,206 +451,260 @@ function PhotoUploader() {
   // ======================================================================
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <div className="bg-white p-6 rounded-2xl shadow-md max-w-2xl w-full">
-        <div>
-          <div>
-            <CityDropdown
-              selectedSchool={selectedSchool}
-              onSchoolChange={setSelectedSchool}
-              selectedCity={selectedCity}
-              onCityChange={setSelectedCity}
-              cityCode={cityCode}
-              onCityCodeChange={handleCityCodeChange}
-              name={name}
-              className={className}
-              email={email}
-              onNameChange={setName}
-              onClassChange={setClassName}
-              onEmailChange={setEmail}
-              onEmailBlur={handleEmailBlur}
-            />
+    <div className="w-full max-w-md mx-auto relative">
+      {/* Road markings top */}
+      <div className="absolute top-0 left-0 right-0 h-2 bg-gray-800 overflow-hidden">
+        <div className="flex justify-center space-x-4">
+          <motion.div
+            className="w-8 h-1 bg-yellow-400 mt-0.5"
+            animate={{ x: [-20, 100] }}
+            transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
+          />
+          <motion.div
+            className="w-8 h-1 bg-yellow-400 mt-0.5"
+            animate={{ x: [-20, 100] }}
+            transition={{
+              repeat: Infinity,
+              duration: 2,
+              ease: "linear",
+              delay: 0.5,
+            }}
+          />
+          <motion.div
+            className="w-8 h-1 bg-yellow-400 mt-0.5"
+            animate={{ x: [-20, 100] }}
+            transition={{
+              repeat: Infinity,
+              duration: 2,
+              ease: "linear",
+              delay: 1,
+            }}
+          />
+        </div>
+      </div>
 
-            <button
+      <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
+        <div className="p-4">
+          <CityDropdown
+            selectedSchool={selectedSchool}
+            onSchoolChange={setSelectedSchool}
+            selectedCity={selectedCity}
+            onCityChange={setSelectedCity}
+            cityCode={cityCode}
+            onCityCodeChange={handleCityCodeChange}
+            name={name}
+            className={className}
+            email={email}
+            onNameChange={setName}
+            onClassChange={setClassName}
+            onEmailChange={setEmail}
+            onEmailBlur={handleEmailBlur}
+          />
+
+          {(isLoading || isGeneratingCertificate) && (
+            <div className="mt-3">
+              <div className="relative h-2 bg-gray-200 rounded-full overflow-hidden">
+                <motion.div
+                  className="absolute top-0 left-0 h-full bg-gradient-to-r from-yellow-400 to-yellow-500"
+                  style={{ width: `${progress}%` }}
+                  initial={{ width: "0%" }}
+                  animate={{ width: `${progress}%` }}
+                />
+              </div>
+              <div className="flex justify-between items-center mt-1">
+                <p className="text-xs text-gray-600">
+                  {isGeneratingCertificate
+                    ? "Creating certificate..."
+                    : "Processing..."}
+                </p>
+                <p className="text-xs text-gray-600">{progress}%</p>
+              </div>
+            </div>
+          )}
+
+          {submitStatus && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className={`mt-3 p-3 rounded-md text-sm ${
+                submitStatus.success
+                  ? "bg-green-50 text-green-700 border border-green-200"
+                  : "bg-red-50 text-red-700 border border-red-200"
+              }`}
+            >
+              <p>{submitStatus.message}</p>
+            </motion.div>
+          )}
+
+          <div className="mt-4">
+            <div className="flex items-center mb-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 text-yellow-500 mr-2"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              <h3 className="text-sm font-medium text-gray-700">
+                Your PDF Document
+              </h3>
+            </div>
+
+            {!selectedFile && (
+              <div className="mb-4">
+                <div
+                  className={`flex flex-col items-center p-4 border-2 border-dashed rounded-lg ${
+                    isDragging
+                      ? "border-yellow-500 bg-yellow-50"
+                      : "border-gray-300 hover:border-yellow-400"
+                  } transition-colors duration-200`}
+                  onDragOver={handleDragOver}
+                  onDragLeave={handleDragLeave}
+                  onDrop={handleDrop}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-10 w-10 text-yellow-500 mb-2"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    />
+                  </svg>
+                  <p className="text-sm text-gray-600 mb-2 text-center">
+                    {isDragging
+                      ? "Drop your PDF here"
+                      : "Drag and drop your PDF here"}
+                  </p>
+                  <span className="text-xs text-gray-500 mb-2">- or -</span>
+                  <button
+                    onClick={handleBrowseClick}
+                    className="px-3 py-1.5 bg-yellow-500 text-white text-sm rounded-md hover:bg-yellow-600 transition-colors"
+                  >
+                    Browse Files
+                  </button>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="application/pdf"
+                    onChange={handleFileChange}
+                    className="hidden"
+                  />
+                </div>
+              </div>
+            )}
+
+            {error && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="text-red-500 text-sm mb-4 p-2 bg-red-50 rounded-md border border-red-200"
+              >
+                {error}
+              </motion.div>
+            )}
+
+            {selectedFile && (
+              <div className="mb-4">
+                <div className="flex items-center p-2 bg-yellow-50 rounded-md border border-yellow-200">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 text-yellow-500 mr-2"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  <span className="text-sm text-gray-700 truncate flex-1">
+                    {selectedFile.name}
+                  </span>
+                  <button
+                    onClick={() => setSelectedFile(null)}
+                    className="text-red-500 hover:text-red-700 ml-2"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="flex flex-col space-y-3 mt-4">
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               onClick={uploadPhoto}
               disabled={!isFormValid() || isLoading || isGeneratingCertificate}
-              style={{
-                marginTop: "10px",
-                padding: "10px 20px",
-                backgroundColor:
-                  !isFormValid() || isLoading || isGeneratingCertificate
-                    ? "gray"
-                    : "blue",
-                color: "white",
-                borderRadius: "5px",
-                cursor:
-                  !isFormValid() || isLoading || isGeneratingCertificate
-                    ? "not-allowed"
-                    : "pointer",
-              }}
+              className={`py-2 px-4 rounded-md text-white text-sm font-medium ${
+                !isFormValid() || isLoading || isGeneratingCertificate
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-yellow-500 hover:bg-yellow-600"
+              }`}
             >
               {isLoading
                 ? "Processing..."
                 : isGeneratingCertificate
                 ? "Generating Certificate..."
-                : "Process Image"}
-            </button>
-
-            {(isLoading || isGeneratingCertificate) && (
-              <div style={{ marginTop: "10px", width: "100%" }}>
-                <div
-                  style={{
-                    backgroundColor: "#e0e0e0",
-                    height: "10px",
-                    borderRadius: "5px",
-                    marginBottom: "5px",
-                  }}
-                >
-                  <div
-                    style={{
-                      backgroundColor: "blue",
-                      height: "100%",
-                      borderRadius: "5px",
-                      width: `${progress}%`,
-                    }}
-                  ></div>
-                </div>
-                <p>
-                  {progress}% {useMockData ? "Simulated" : "Uploaded"}
-                </p>
-              </div>
-            )}
-
-            {submitStatus && (
-              <div
-                style={{
-                  marginTop: "10px",
-                  padding: "10px",
-                  backgroundColor: submitStatus.success ? "#e6ffe6" : "#ffe6e6",
-                  border: `1px solid ${submitStatus.success ? "green" : "red"}`,
-                  borderRadius: "5px",
-                }}
-              >
-                <p>{submitStatus.message}</p>
-              </div>
-            )}
-
-            {apiResponse && (
-              <div style={{ marginTop: "10px" }}>
-                <h3>API Response:</h3>
-                <pre
-                  style={{
-                    backgroundColor: "#f5f5f5",
-                    padding: "10px",
-                    borderRadius: "5px",
-                    overflow: "auto",
-                    maxHeight: "200px",
-                  }}
-                >
-                  {JSON.stringify(apiResponse, null, 2)}
-                </pre>
-              </div>
-            )}
+                : "Process PDF"}
+            </motion.button>
           </div>
         </div>
-        <h2 className="text-2xl font-bold mb-6 text-center text-blue-600">
-          Your PDF
-        </h2>
+      </div>
 
-        {!selectedFile && (
-          <div className="mb-6">
-            <div
-              className={`flex flex-col items-center p-8 border-2 border-dashed rounded-xl ${
-                isDragging
-                  ? "border-blue-500 bg-blue-50"
-                  : "border-blue-300 bg-blue-50 hover:border-blue-400"
-              } transition-colors duration-200`}
-              onDragOver={handleDragOver}
-              onDragLeave={handleDragLeave}
-              onDrop={handleDrop}
-            >
-              <img
-                src="https://cdn-icons-png.flaticon.com/512/4503/4503941.png"
-                alt="Upload"
-                className="w-20 h-20 mb-4"
-              />
-              <p className="text-gray-600 mb-4 text-center">
-                {isDragging
-                  ? "Drop your PDF here"
-                  : "Drag and drop your PDF here, or click to select"}
-              </p>
-              <button
-                onClick={handleBrowseClick}
-                className="px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors"
-              >
-                Browse Files
-              </button>
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="application/pdf"
-                onChange={handleFileChange}
-                className="hidden"
-              />
-            </div>
-          </div>
-        )}
-
-        {error && (
-          <div className="text-red-500 mb-4 p-3 bg-red-50 rounded-lg">
-            {error}
-          </div>
-        )}
-
-        {selectedFile && (
-          <div className="mb-6">
-            <div className="flex flex-col items-center">
-              <div className="max-h-64 max-w-full mb-4 rounded-lg shadow-sm p-4 bg-gray-100 flex items-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-12 w-12 text-red-500"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                <span className="ml-2">{selectedFile.name}</span>
-              </div>
-              <p className="text-green-600 font-medium mb-2">
-                {selectedFile.name}
-              </p>
-              <button
-                onClick={() => setSelectedFile(null)}
-                className="text-red-500 hover:text-red-700 font-medium mb-4"
-              >
-                Remove
-              </button>
-            </div>
-          </div>
-        )}
-
-        <button
-          onClick={() => navigate("/")}
-          className="mt-6 text-blue-500 hover:text-blue-700 font-medium flex items-center justify-center w-full"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 mr-2"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M9.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L7.414 9H15a1 1 0 110 2H7.414l2.293 2.293a1 1 0 010 1.414z"
-              clipRule="evenodd"
-            />
-          </svg>
-          Back to Home
-        </button>
+      {/* Road markings bottom */}
+      <div className="absolute bottom-0 left-0 right-0 h-2 bg-gray-800 overflow-hidden">
+        <div className="flex justify-center space-x-4">
+          <motion.div
+            className="w-8 h-1 bg-yellow-400 mt-0.5"
+            animate={{ x: [100, -20] }}
+            transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
+          />
+          <motion.div
+            className="w-8 h-1 bg-yellow-400 mt-0.5"
+            animate={{ x: [100, -20] }}
+            transition={{
+              repeat: Infinity,
+              duration: 2,
+              ease: "linear",
+              delay: 0.5,
+            }}
+          />
+          <motion.div
+            className="w-8 h-1 bg-yellow-400 mt-0.5"
+            animate={{ x: [100, -20] }}
+            transition={{
+              repeat: Infinity,
+              duration: 2,
+              ease: "linear",
+              delay: 1,
+            }}
+          />
+        </div>
       </div>
     </div>
   );
