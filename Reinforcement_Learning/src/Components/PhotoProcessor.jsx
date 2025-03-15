@@ -1,23 +1,134 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom"; // Import for navigation
-import mockData from "../Data/Mock.json"; // Import the mock data
-import CityDropdown from "./CityDropdown"; // Import the CityDropdown component
+import { useNavigate } from "react-router-dom";
+import mockData from "../Data/Mock.json";
+import CityDropdown from "./CityDropdown";
+import certificateImage from "../Components/Chota Cop Certificate.png";
+import html2canvas from "html2canvas";
+import { jsPDF } from "jspdf";
 
 function PhotoProcessor({ imageFile, onResultReceived, onError }) {
-  const navigate = useNavigate(); // For navigation
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [apiResponse, setApiResponse] = useState(null);
-  const [useMockData, setUseMockData] = useState(true); // Changed to use API data by default
-  const [name, setName] = useState(""); // State for name
-  const [className, setClassName] = useState(""); // State for class
-  const [selectedSchool, setSelectedSchool] = useState(""); // State for selected school
-  const [selectedCity, setSelectedCity] = useState(""); // State for selected city
-  const [cityCode, setCityCode] = useState(""); // State for city code
-  const [email, setEmail] = useState(""); // State for email
-  const [submitStatus, setSubmitStatus] = useState(null); // State for backend submission status
-  const [emailChecked, setEmailChecked] = useState(false); // To track if email has been checked
+  const [useMockData, setUseMockData] = useState(true);
+  const [name, setName] = useState("");
+  const [className, setClassName] = useState("");
+  const [selectedSchool, setSelectedSchool] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
+  const [cityCode, setCityCode] = useState("");
+  const [email, setEmail] = useState("");
+  const [submitStatus, setSubmitStatus] = useState(null);
+  const [emailChecked, setEmailChecked] = useState(false);
+  const [isGeneratingCertificate, setIsGeneratingCertificate] = useState(false);
+
+  // Function to generate and download certificate PDF
+  const generatePDF = (certificateData) => {
+    // Use fallbacks for School_name vs School_code based on what's available
+    if (
+      !certificateData.name ||
+      !(certificateData.School_name || certificateData.School_code) ||
+      !certificateData.Class
+    ) {
+      alert("Missing required data for certificate generation!");
+      return;
+    }
+
+    setIsGeneratingCertificate(true);
+
+    // Create a temporary div for rendering
+    const tempDiv = document.createElement("div");
+    tempDiv.className = "relative w-[1123px] h-[794px] bg-white";
+
+    // Create an image element
+    const img = new Image();
+    img.crossOrigin = "Anonymous";
+    img.src = certificateImage;
+
+    // Add the image to the div
+    tempDiv.appendChild(img);
+
+    // Create and add text elements for the data
+    const nameDiv = document.createElement("div");
+    nameDiv.style.position = "absolute";
+    nameDiv.style.top = "388px";
+    nameDiv.style.left = "345px";
+    nameDiv.style.fontWeight = "bold";
+    nameDiv.textContent = certificateData.name;
+    tempDiv.appendChild(nameDiv);
+
+    const schoolCodeDiv = document.createElement("div");
+    schoolCodeDiv.style.position = "absolute";
+    schoolCodeDiv.style.top = "458px";
+    schoolCodeDiv.style.left = "340px";
+    schoolCodeDiv.style.fontWeight = "bold";
+    // Use either School_name or School_code based on what's available
+    schoolCodeDiv.textContent =
+      certificateData.School_name || certificateData.School_code;
+    tempDiv.appendChild(schoolCodeDiv);
+
+    const classDiv = document.createElement("div");
+    classDiv.style.position = "absolute";
+    classDiv.style.top = "448px";
+    classDiv.style.left = "750px";
+    classDiv.style.fontWeight = "bold";
+    classDiv.textContent = certificateData.Class;
+    tempDiv.appendChild(classDiv);
+
+    // Add to document body (hidden)
+    tempDiv.style.position = "absolute";
+    tempDiv.style.left = "-9999px";
+    document.body.appendChild(tempDiv);
+
+    // Wait for image to load before capturing
+    img.onload = () => {
+      html2canvas(tempDiv, {
+        scale: 3,
+        logging: true,
+        useCORS: true,
+        allowTaint: true,
+      })
+        .then((canvas) => {
+          const imgData = canvas.toDataURL("image/png");
+          const pdf = new jsPDF("landscape", "mm", "a4");
+          const imgWidth = 297;
+          const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+          pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+          pdf.save("ChotaCop_Certificate.pdf");
+
+          document.body.removeChild(tempDiv); // Clean up
+          setIsGeneratingCertificate(false);
+
+          // Update status to notify user that certificate has been generated
+          setSubmitStatus({
+            success: true,
+            message: "Certificate generated successfully!",
+          });
+        })
+        .catch((err) => {
+          console.error("Error generating PDF:", err);
+          setIsGeneratingCertificate(false);
+          setSubmitStatus({
+            success: false,
+            message: "Failed to generate certificate. Please try again.",
+          });
+        });
+    };
+
+    // Handle image loading error
+    img.onerror = () => {
+      console.error("Failed to load the certificate template image");
+      document.body.removeChild(tempDiv);
+      setIsGeneratingCertificate(false);
+      setSubmitStatus({
+        success: false,
+        message:
+          "Failed to load certificate template. Please check the image path.",
+      });
+    };
+  };
 
   // Debug log to verify state changes
   useEffect(() => {
@@ -26,9 +137,11 @@ function PhotoProcessor({ imageFile, onResultReceived, onError }) {
 
   // Function to check if email already exists
   const checkEmail = async () => {
-    if (!email) return;
+    if (!email) return { exists: false };
 
     setIsLoading(true);
+    setSubmitStatus(null);
+
     try {
       const response = await axios.get(
         `http://127.0.0.1:8000/check-email/${email}`
@@ -36,30 +149,30 @@ function PhotoProcessor({ imageFile, onResultReceived, onError }) {
       console.log("Email check response:", response.data);
 
       if (response.data.message !== "Email unavailable") {
-        // Email exists, navigate to certificate page
+        // Email exists, prepare certificate data
+        const certificateData = {
+          name: response.data.name,
+          School_name: response.data.School_name,
+          School_code: response.data.School_code,
+          City_name: response.data.City_name,
+          Class: response.data.Class,
+          email: email,
+        };
+
+        // Notify user that email was found
         setSubmitStatus({
           success: true,
-          message: "Email found in system. Redirecting to certificate page...",
+          message: "Email found in system. Generating certificate...",
         });
 
-        // Wait a moment before redirecting
-        setTimeout(() => {
-          navigate("/certificate", {
-            state: {
-              email: email,
-              name: response.data.name,
-              school: response.data.School_name,
-              city: response.data.City_name,
-              className: response.data.Class,
-            },
-          });
-        }, 1500);
+        // Generate the certificate
+        generatePDF(certificateData);
 
-        return false; // Email exists, don't continue with process
+        return { exists: true, data: certificateData };
       } else {
         // Email doesn't exist, continue with form
         setEmailChecked(true);
-        return true; // Email doesn't exist, continue with process
+        return { exists: false };
       }
     } catch (error) {
       console.error("Error checking email:", error);
@@ -67,7 +180,7 @@ function PhotoProcessor({ imageFile, onResultReceived, onError }) {
         success: false,
         message: `Error checking email: ${error.message}`,
       });
-      return false; // Don't continue with process if there's an error
+      return { exists: false, error: error.message };
     } finally {
       setIsLoading(false);
     }
@@ -77,8 +190,11 @@ function PhotoProcessor({ imageFile, onResultReceived, onError }) {
     if (!imageFile) return;
 
     // First check if email exists
-    const shouldContinue = await checkEmail();
-    if (!shouldContinue) return;
+    const emailCheck = await checkEmail();
+    if (emailCheck.exists) {
+      // If email exists, certificate generation is already triggered in checkEmail
+      return;
+    }
 
     setIsLoading(true);
     setProgress(0);
@@ -251,7 +367,7 @@ function PhotoProcessor({ imageFile, onResultReceived, onError }) {
   };
 
   const handleCityCodeChange = (value) => {
-    setCityCode(value); // Ensure this is a string
+    setCityCode(value);
   };
 
   // Handle email blur to check if email exists
@@ -262,8 +378,8 @@ function PhotoProcessor({ imageFile, onResultReceived, onError }) {
   };
 
   return (
-    <div className="photo-processor">
-      <div className="flex flex-col items-center">
+    <div>
+      <div>
         <CityDropdown
           selectedSchool={selectedSchool}
           onSchoolChange={setSelectedSchool}
@@ -279,80 +395,52 @@ function PhotoProcessor({ imageFile, onResultReceived, onError }) {
           onEmailChange={setEmail}
           onEmailBlur={handleEmailBlur}
         />
+
         <button
           onClick={uploadPhoto}
-          disabled={!isFormValid() || isLoading}
-          className={`
-    px-6 py-3 mt-10 rounded-lg font-medium text-base transition-all duration-300
-    shadow-lg transform hover:-translate-y-1 relative
-    ${
-      isLoading || !isFormValid()
-        ? "bg-gray-700 text-gray-300 cursor-not-allowed opacity-80"
-        : "bg-gradient-to-r from-blue-700 to-indigo-800 text-white hover:from-blue-800 hover:to-indigo-900"
-    }
-    before:content-[''] before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-r 
-    before:from-cyan-400 before:to-blue-500 before:opacity-0 before:transition-opacity 
-    before:duration-300 hover:before:opacity-70 before:-z-10 before:blur-md
-    focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75
-    disabled:cursor-not-allowed disabled:opacity-60
-  `}
+          disabled={!isFormValid() || isLoading || isGeneratingCertificate}
+          style={{
+            marginTop: "10px",
+            padding: "10px 20px",
+            backgroundColor:
+              !isFormValid() || isLoading || isGeneratingCertificate
+                ? "gray"
+                : "blue",
+            color: "white",
+            borderRadius: "5px",
+            cursor:
+              !isFormValid() || isLoading || isGeneratingCertificate
+                ? "not-allowed"
+                : "pointer",
+          }}
         >
-          <span className="flex items-center justify-center">
-            {isLoading ? (
-              <>
-                <svg
-                  className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  ></circle>
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-                Processing...
-              </>
-            ) : (
-              <>
-                Process Image
-                <svg
-                  className="ml-2 h-4 w-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M14 5l7 7m0 0l-7 7m7-7H3"
-                  />
-                </svg>
-              </>
-            )}
-          </span>
+          {isLoading
+            ? "Processing..."
+            : isGeneratingCertificate
+            ? "Generating Certificate..."
+            : "Process Image"}
         </button>
 
-        {isLoading && (
-          <div className="w-full max-w-md mt-4">
-            <div className="bg-gray-200 rounded-full h-2.5">
+        {(isLoading || isGeneratingCertificate) && (
+          <div style={{ marginTop: "10px", width: "100%" }}>
+            <div
+              style={{
+                backgroundColor: "#e0e0e0",
+                height: "10px",
+                borderRadius: "5px",
+                marginBottom: "5px",
+              }}
+            >
               <div
-                className="bg-blue-600 h-2.5 rounded-full"
-                style={{ width: `${progress}%` }}
+                style={{
+                  backgroundColor: "blue",
+                  height: "100%",
+                  borderRadius: "5px",
+                  width: `${progress}%`,
+                }}
               ></div>
             </div>
-            <p className="text-center text-sm mt-1">
+            <p>
               {progress}% {useMockData ? "Simulated" : "Uploaded"}
             </p>
           </div>
@@ -360,26 +448,30 @@ function PhotoProcessor({ imageFile, onResultReceived, onError }) {
 
         {submitStatus && (
           <div
-            className={`mt-4 w-full max-w-md p-3 rounded ${
-              submitStatus.success
-                ? "bg-green-100 border border-green-400"
-                : "bg-red-100 border border-red-400"
-            }`}
+            style={{
+              marginTop: "10px",
+              padding: "10px",
+              backgroundColor: submitStatus.success ? "#e6ffe6" : "#ffe6e6",
+              border: `1px solid ${submitStatus.success ? "green" : "red"}`,
+              borderRadius: "5px",
+            }}
           >
-            <p
-              className={`text-sm ${
-                submitStatus.success ? "text-green-700" : "text-red-700"
-              }`}
-            >
-              {submitStatus.message}
-            </p>
+            <p>{submitStatus.message}</p>
           </div>
         )}
 
         {apiResponse && (
-          <div className="mt-4 w-full max-w-md">
-            <h3 className="text-lg font-semibold mb-2">API Response:</h3>
-            <pre className="bg-gray-100 p-3 rounded text-sm overflow-auto max-h-60">
+          <div style={{ marginTop: "10px" }}>
+            <h3>API Response:</h3>
+            <pre
+              style={{
+                backgroundColor: "#f5f5f5",
+                padding: "10px",
+                borderRadius: "5px",
+                overflow: "auto",
+                maxHeight: "200px",
+              }}
+            >
               {JSON.stringify(apiResponse, null, 2)}
             </pre>
           </div>
