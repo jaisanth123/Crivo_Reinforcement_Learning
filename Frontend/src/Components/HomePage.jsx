@@ -67,7 +67,7 @@ function HomePage() {
       id: 2,
       title: "Safety Quiz",
       description: "Test your knowledge with fun interactive quizzes",
-      color: "from-green-400 to-green-500",
+      color: "from-green-500 to-green-600",
       hoverColor: "from-green-500 to-green-600",
       icon: (
         <svg
@@ -89,13 +89,13 @@ function HomePage() {
     },
     {
       id: 3,
-      color: "from-blue-500 to-blue-600",
+      color: "from-blue-800 to-blue-900",
       hoverColor: "from-blue-600 to-blue-700",
       icon: (
         <img
           src={FarishteyLogo}
           alt="Farishtey Logo"
-          className="h-32 w-32 object-contain"
+          className="h-45 w-45 object-contain"
         />
       ),
       action: handleFarishteyClick,
@@ -131,7 +131,7 @@ function HomePage() {
 
       <main className="flex-grow container mx-auto px-4 py-8 relative overflow-hidden">
         {/* Road Signs Component */}
-        <RoadSigns />
+        {/* <RoadSigns /> */}
 
         {/* YI Logo - Left Corner */}
         <div className="absolute top-4 left-4 z-20">
@@ -159,39 +159,6 @@ function HomePage() {
           className="mb-12 text-center"
         >
           {/* traffic signal */}
-          <div className="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 hidden md:block">
-            <div className="w-10 h-24 bg-gray-800 rounded-lg flex flex-col items-center justify-around p-1">
-              <motion.div
-                className="w-6 h-6 bg-red-500 rounded-full"
-                animate={{ opacity: [1, 0.3, 1] }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  repeatType: "reverse",
-                }}
-              />
-              <motion.div
-                className="w-6 h-6 bg-yellow-400 rounded-full"
-                animate={{ opacity: [0.3, 1, 0.3] }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  repeatType: "reverse",
-                  delay: 2,
-                }}
-              />
-              <motion.div
-                className="w-6 h-6 bg-green-500 rounded-full"
-                animate={{ opacity: [0.3, 1, 0.3] }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  repeatType: "reverse",
-                  delay: 4,
-                }}
-              />
-            </div>
-          </div>
 
           <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4 relative inline-block">
             YOUNG INDIANS
@@ -268,9 +235,6 @@ function HomePage() {
               >
                 <div className="bg-white rounded-2xl w-120 shadow-xl overflow-hidden">
                   <div className="h-12 bg-gradient-to-r from-yellow-500 to-yellow-600 flex items-center justify-between px-4">
-                    <h3 className="text-white font-bold">
-                      Chota Cop - Upload Your PDF
-                    </h3>
                     <button
                       onClick={handleClosePhotoUploader}
                       className="text-white hover:text-yellow-200"
@@ -368,139 +332,6 @@ function HomePage() {
             </motion.div>
           )}
         </AnimatePresence>
-        <motion.div
-          className="absolute bottom-20 z-10 hidden md:block"
-          animate={{ x: [-100, window.innerWidth + 100] }}
-          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-        >
-          <svg
-            width="60"
-            height="40"
-            viewBox="0 0 60 40"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <circle
-              cx="10"
-              cy="30"
-              r="8"
-              stroke="#333"
-              strokeWidth="2"
-              fill="none"
-            />
-            <circle
-              cx="45"
-              cy="30"
-              r="8"
-              stroke="#333"
-              strokeWidth="2"
-              fill="none"
-            />
-            <rect x="5" y="10" width="45" height="15" rx="5" fill="#4f46e5" />
-            <motion.g
-              animate={{ rotate: [0, 360] }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-              style={{ transformOrigin: "10px 30px" }}
-            >
-              <line
-                x1="10"
-                y1="30"
-                x2="10"
-                y2="22"
-                stroke="#333"
-                strokeWidth="2"
-              />
-              <line
-                x1="10"
-                y1="30"
-                x2="16"
-                y2="33"
-                stroke="#333"
-                strokeWidth="2"
-              />
-              <line
-                x1="10"
-                y1="30"
-                x2="4"
-                y2="33"
-                stroke="#333"
-                strokeWidth="2"
-              />
-            </motion.g>
-            <motion.g
-              animate={{ rotate: [0, 360] }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-              style={{ transformOrigin: "45px 30px" }}
-            >
-              <line
-                x1="45"
-                y1="30"
-                x2="45"
-                y2="22"
-                stroke="#333"
-                strokeWidth="2"
-              />
-              <line
-                x1="45"
-                y1="30"
-                x2="51"
-                y2="33"
-                stroke="#333"
-                strokeWidth="2"
-              />
-              <line
-                x1="45"
-                y1="30"
-                x2="39"
-                y2="33"
-                stroke="#333"
-                strokeWidth="2"
-              />
-            </motion.g>
-            <line
-              x1="10"
-              y1="30"
-              x2="27"
-              y2="15"
-              stroke="#333"
-              strokeWidth="2"
-            />
-            <line
-              x1="45"
-              y1="30"
-              x2="27"
-              y2="15"
-              stroke="#333"
-              strokeWidth="2"
-            />
-            <line
-              x1="27"
-              y1="15"
-              x2="35"
-              y2="15"
-              stroke="#333"
-              strokeWidth="2"
-            />
-            <line
-              x1="35"
-              y1="15"
-              x2="45"
-              y2="30"
-              stroke="#333"
-              strokeWidth="2"
-            />
-            <rect x="34" y="10" width="2" height="5" fill="#333" />
-            <rect x="25" y="5" width="10" height="5" rx="2" fill="#f59e0b" />
-          </svg>
-        </motion.div>
       </main>
 
       {/* Footer */}

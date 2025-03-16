@@ -6,18 +6,19 @@ function BasicInfo({ basicInfo }) {
   const infoItems = [
     {
       icon: <UserCircle className="h-5 w-5 text-blue-500" />,
-      label: "Name",
+      label: "Full Name",
       value: basicInfo.name,
+    },
+
+    {
+      icon: <MapPin className="h-5 w-5 text-blue-500" />,
+      label: "Chapter Name",
+      value: basicInfo.City_code,
     },
     {
       icon: <School className="h-5 w-5 text-blue-500" />,
       label: "School Name",
       value: basicInfo.School_code,
-    },
-    {
-      icon: <MapPin className="h-5 w-5 text-blue-500" />,
-      label: "City Name",
-      value: basicInfo.City_code,
     },
     {
       icon: <GraduationCap className="h-5 w-5 text-blue-500" />,

@@ -215,26 +215,25 @@ const CityDropdown = ({
       <div className="space-y-4">
         <div className="bg-white p-4 rounded-lg shadow-md border-2 border-orange-300">
           <div className="flex items-center mb-2">
-            <div className="text-orange-500 mr-2">
+            {/* <div className="text-orange-500 mr-2">
               <NameIcon />
-            </div>
-            <label className="font-medium text-orange-800">Name:</label>
+            </div> */}
+            {/* <label className="font-medium text-orange-800">Name:</label> */}
           </div>
           <input
             type="text"
             value={name || ""}
             onChange={(e) => onNameChange(e.target.value)}
-            placeholder="Type your name here"
+            placeholder="Full Name"
             className="w-full px-4 py-3 rounded-xl border-2 border-orange-200 focus:border-orange-400 focus:outline-none text-lg"
           />
         </div>
 
         <div className="bg-white p-4 rounded-lg shadow-md border-2 border-blue-300">
           <div className="flex items-center mb-2">
-            <div className="text-blue-500 mr-2">
+            {/* <div className="text-blue-500 mr-2">
               <EmailIcon />
-            </div>
-            <label className="font-medium text-blue-800">Email:</label>
+            </div> */}
           </div>
           <input
             type="email"
@@ -252,40 +251,18 @@ const CityDropdown = ({
           )}
         </div>
 
-        <div className="bg-white p-4 rounded-lg shadow-md border-2 border-green-300">
-          <div className="flex items-center mb-2">
-            <div className="text-green-500 mr-2">
-              <ClassIcon />
-            </div>
-            <label className="font-medium text-green-800">Class:</label>
-          </div>
-          <select
-            value={className || ""}
-            onChange={(e) => onClassChange(e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border-2 border-green-200 focus:border-green-400 focus:outline-none text-lg appearance-none bg-white"
-          >
-            <option value="">Select your class</option>
-            {[...Array(12)].map((_, index) => (
-              <option key={index} value={`${index + 1}`}>
-                {index + 1}
-              </option>
-            ))}
-          </select>
-        </div>
-
         <div className="bg-white p-4 rounded-lg shadow-md border-2 border-purple-300">
           <div className="flex items-center mb-2">
-            <div className="text-purple-500 mr-2">
+            {/* <div className="text-purple-500 mr-2">
               <CityIcon />
-            </div>
-            <label className="font-medium text-purple-800">City:</label>
+            </div> */}
           </div>
           <select
             value={selectedCity || ""}
             onChange={(e) => onCityChange(e.target.value)}
             className="w-full px-4 py-3 rounded-xl border-2 border-purple-200 focus:border-purple-400 focus:outline-none text-lg appearance-none bg-white"
           >
-            <option value="">Choose your city</option>
+            <option value="">Chatper Name</option>
             {cities.map((city, index) => (
               <option key={index} value={city}>
                 {city}
@@ -296,10 +273,9 @@ const CityDropdown = ({
 
         <div className="bg-white p-4 rounded-lg shadow-md border-2 border-red-300">
           <div className="flex items-center mb-2">
-            <div className="text-red-500 mr-2">
+            {/* <div className="text-red-500 mr-2">
               <SchoolIcon />
-            </div>
-            <label className="font-medium text-red-800">School:</label>
+            </div> */}
           </div>
           <select
             value={selectedSchool || ""}
@@ -310,6 +286,26 @@ const CityDropdown = ({
             {schools.map((school, index) => (
               <option key={index} value={school}>
                 {school}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="bg-white p-4 rounded-lg shadow-md border-2 border-green-300">
+          <div className="flex items-center mb-2">
+            {/* <div className="text-green-500 mr-2">
+              <ClassIcon />
+            </div> */}
+          </div>
+          <select
+            value={className || ""}
+            onChange={(e) => onClassChange(e.target.value)}
+            className="w-full px-4 py-3 rounded-xl border-2 border-green-200 focus:border-green-400 focus:outline-none text-lg appearance-none bg-white"
+          >
+            <option value="">Class</option>
+            {[...Array(12)].map((_, index) => (
+              <option key={index} value={`${index + 1}`}>
+                {index + 1}
               </option>
             ))}
           </select>
