@@ -122,7 +122,118 @@ function ResultDisplay() {
   }, [result]);
 
   const handlePrint = () => {
+    // Create a print-specific stylesheet
+    const style = document.createElement("style");
+    style.type = "text/css";
+    style.id = "print-style";
+
+    // More aggressive CSS to force single-page printing
+    style.innerHTML = `
+      @media print {
+        body {
+          margin: 0 !important;
+          padding: 0 !important;
+          font-size: 80% !important;
+        }
+        
+        nav, footer, button, .hidden-print {
+          display: none !important;
+        }
+        
+        .min-h-screen {
+          min-height: auto !important;
+        }
+        
+        .container, .w-full, .px-4, .py-6, .sm\\:px-6, .lg\\:px-8 {
+          padding: 0 !important;
+          margin: 0 !important;
+          max-width: 100% !important;
+        }
+        
+        .space-y-8 {
+          margin: 0 !important;
+        }
+        
+        .space-y-8 > * {
+          margin-top: 0.25rem !important;
+          margin-bottom: 0.25rem !important;
+          padding-top: 0.25rem !important;
+          padding-bottom: 0.25rem !important;
+        }
+        
+        .mb-3, .mb-4, .mb-6, .mb-12, .mt-3, .mt-4, .mt-6, .mt-12, .my-3, .my-4, .my-6, .my-12 {
+          margin: 0.1rem 0 !important;
+        }
+        
+        h1, h2, h3 {
+          margin: 0.1rem 0 !important;
+          padding: 0 !important;
+          font-size: 90% !important;
+        }
+        
+        p, span, div {
+          line-height: 1.2 !important;
+        }
+        
+        .bg-gradient-to-b, .bg-white, .bg-gray-50, .bg-gray-100 {
+          background: white !important;
+        }
+        
+        .shadow-lg, .shadow-md, .shadow-xl, .shadow-sm {
+          box-shadow: none !important;
+        }
+        
+        .rounded-lg, .rounded-xl, .rounded-2xl, .rounded-md, .rounded-sm {
+          border-radius: 0 !important;
+        }
+        
+        .p-3, .p-4, .p-5, .p-6, .px-3, .px-4, .px-5, .px-6, .py-3, .py-4, .py-5, .py-6 {
+          padding: 0.1rem !important;
+        }
+        
+        .grid {
+          display: flex !important;
+          flex-wrap: wrap !important;
+        }
+        
+        .grid-cols-1, .grid-cols-2, .md\\:grid-cols-2 {
+          display: flex !important;
+          flex-wrap: wrap !important;
+        }
+        
+        .grid-cols-1 > *, .grid-cols-2 > *, .md\\:grid-cols-2 > * {
+          flex: 1 1 45% !important;
+          margin: 0.1rem !important;
+        }
+        
+        .border, .border-t, .border-b, .border-l, .border-r {
+          border: none !important;
+        }
+        
+        .text-sm, .text-xs, .text-lg, .text-xl, .text-2xl, .text-3xl {
+          font-size: 10px !important;
+        }
+        
+        .h-4, .h-5, .h-6, .w-4, .w-5, .w-6 {
+          height: 12px !important;
+          width: 12px !important;
+        }
+      }
+    `;
+
+    // Add the style to the document head
+    document.head.appendChild(style);
+
+    // Print the document
     window.print();
+
+    // Remove the style after printing
+    setTimeout(() => {
+      const printStyle = document.getElementById("print-style");
+      if (printStyle) {
+        printStyle.parentNode.removeChild(printStyle);
+      }
+    }, 1000);
   };
 
   if (!result) {
