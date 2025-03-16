@@ -52,7 +52,7 @@ function Activity({ activity, getActivityQuestionText, binaryToYesNo }) {
                     key={`ride-${num}`}
                     className="py-1 px-1 text-center font-semibold text-blue-700 border-b border-gray-200"
                   >
-                    Ride{num}
+                    {/* Ride{num} */}
                   </th>
                 ))}
               </tr>
