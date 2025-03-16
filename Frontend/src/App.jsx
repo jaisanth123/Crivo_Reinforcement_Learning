@@ -7,7 +7,7 @@ import ResultDisplay from "./Components/ResultDisplay";
 function App() {
   return (
     <Router>
-      <div className="p-4 w-full min-h-screen">
+      <div className=" w-full min-h-screen">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/photo/upload" element={<PhotoUploader />} />

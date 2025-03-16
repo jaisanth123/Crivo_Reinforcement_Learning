@@ -28,7 +28,7 @@ const roadSigns = [
     description:
       "Mandatory sign indicating that a driver must come to a complete stop at the stop line. Proceed only when it's safe and after giving way to vehicles and pedestrians.",
     color: "bg-red-600",
-    position: "top-32 right-5",
+    position: "top-50 right-0",
     category: "Mandatory",
     side: "right",
   },
@@ -51,7 +51,7 @@ const roadSigns = [
     description:
       "Prohibits entry of all vehicles. This sign is placed at roads where vehicles are not permitted to enter, such as one-way streets or restricted areas.",
     color: "bg-red-600",
-    position: "bottom-5 left-5",
+    position: "bottom-20 left-0",
     category: "Prohibitory",
     side: "left",
   },
@@ -91,7 +91,7 @@ const roadSigns = [
     description:
       "Indicates the maximum speed limit of 40 kilometers per hour. Exceeding this speed is an offense under the Motor Vehicles Act in India.",
     color: "bg-red-600",
-    position: "top-32 left-5",
+    position: "top-50 left-0",
     category: "Regulatory",
     side: "left",
   },
@@ -115,7 +115,7 @@ const roadSigns = [
     description:
       "Warns drivers about a pedestrian crossing ahead. Drivers must slow down and be prepared to stop to allow pedestrians to cross safely.",
     color: "bg-blue-600",
-    position: "bottom-5 right-5",
+    position: "bottom-20 right-0",
     category: "Cautionary",
     side: "right",
   },
@@ -163,7 +163,7 @@ const roadSigns = [
     description:
       "Indicates that parking is not allowed at any time. Violating this rule can result in fines or vehicle towing as per Indian traffic regulations.",
     color: "bg-red-600",
-    position: "top-48 right-20",
+    position: "top-50 right-20",
     category: "Prohibitory",
     side: "right",
   },
@@ -231,7 +231,7 @@ const roadSigns = [
     description:
       "Prohibits overtaking or passing other vehicles. This sign is typically placed on roads where overtaking is dangerous due to poor visibility or road conditions.",
     color: "bg-red-600",
-    position: "top-48 left-20",
+    position: "top-50 left-20",
     category: "Prohibitory",
     side: "left",
   },

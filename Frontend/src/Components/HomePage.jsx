@@ -4,6 +4,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import PhotoUploader from "./PhotoUploader";
 import RoadSigns from "./RoadSigns";
 import chotaCopLogo from "../assets/CH.png";
+import CII_Logo from "../assets/CII_Logo.png";
+import YI_Logo from "../assets/YI_Logo.png";
+import FarishteyLogo from "../assets/Faristhey.png";
 
 function HomePage() {
   const navigate = useNavigate();
@@ -29,6 +32,11 @@ function HomePage() {
     setShowQuizPopup(true);
   };
 
+  // Handle Farishtey card click
+  const handleFarishteyClick = () => {
+    window.open("https://www.google.com", "_blank");
+  };
+
   // Handle closing the PhotoUploader
   const handleClosePhotoUploader = () => {
     setShowPhotoUploader(false);
@@ -44,7 +52,6 @@ function HomePage() {
   const cardOptions = [
     {
       id: 1,
-
       color: "from-yellow-400 to-yellow-500",
       hoverColor: "from-yellow-500 to-yellow-600",
       icon: (
@@ -59,7 +66,7 @@ function HomePage() {
     {
       id: 2,
       title: "Safety Quiz",
-      description: "Test  your knowledge with fun interactive quizzes",
+      description: "Test your knowledge with fun interactive quizzes",
       color: "from-green-400 to-green-500",
       hoverColor: "from-green-500 to-green-600",
       icon: (
@@ -79,6 +86,19 @@ function HomePage() {
         </svg>
       ),
       action: handleSafetyQuizClick,
+    },
+    {
+      id: 3,
+      color: "from-blue-500 to-blue-600",
+      hoverColor: "from-blue-600 to-blue-700",
+      icon: (
+        <img
+          src={FarishteyLogo}
+          alt="Farishtey Logo"
+          className="h-32 w-32 object-contain"
+        />
+      ),
+      action: handleFarishteyClick,
     },
   ];
 
@@ -112,6 +132,24 @@ function HomePage() {
       <main className="flex-grow container mx-auto px-4 py-8 relative overflow-hidden">
         {/* Road Signs Component */}
         <RoadSigns />
+
+        {/* YI Logo - Left Corner */}
+        <div className="absolute top-4 left-4 z-20">
+          <img
+            src={YI_Logo}
+            alt="YI Logo"
+            className="h-28 w-28 object-contain"
+          />
+        </div>
+
+        {/* CII Logo - Right Corner */}
+        <div className="absolute top-4 right-4 z-20">
+          <img
+            src={CII_Logo}
+            alt="CII Logo"
+            className="h-28 w-60 object-contain"
+          />
+        </div>
 
         {/* Hero section with animation */}
         <motion.div
@@ -154,22 +192,23 @@ function HomePage() {
               />
             </div>
           </div>
+
           <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4 relative inline-block">
             YOUNG INDIANS
-            <div className="absolute -bottom-2 left-0 right-0 h-2 bg-gradient-to-r from-yellow-300 to-red-500 rounded-full"></div>
+            <div className="absolute -bottom-2 left-0 right-0 h-2 bg-gradient-to-r from-orange-500 via-white to-green-500 rounded-full"></div>
           </h1>
         </motion.div>
 
         {/* Cards and PhotoUploader container */}
         <div className="w-full max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-0">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-0 mt-30">
             {/* Cards section */}
             <div
               className={`${
                 showPhotoUploader ? "md:col-span-5" : "md:col-span-12"
               }`}
             >
-              <div className="flex flex-col  md:flex-row justify-center md:justify-center items-center md:space-x-6 space-y-6 md:space-y-0">
+              <div className="flex flex-col md:flex-row justify-center items-center md:space-x-6 space-y-6 md:space-y-0">
                 <AnimatePresence>
                   {cardOptions.map(
                     (card, index) =>
@@ -190,21 +229,21 @@ function HomePage() {
                             transition: { duration: 0.5 },
                           }}
                           transition={{
-                            duration: 0.5,
-                            delay: index * 0.2,
+                            duration: 0.4,
+                            delay: index * 0.05,
                           }}
                           whileHover={{
                             scale: 1.05,
                             boxShadow:
                               "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
                           }}
-                          className="bg-white rounded-2xl shadow-xl overflow-hidden w-full max-w-xs cursor-pointer"
+                          className="bg-white rounded-2xl shadow-xl overflow-hidden w-full max-w-[200px] h-[250px] cursor-pointer"
                           onMouseEnter={() => setActiveCard(card.id)}
                           onMouseLeave={() => setActiveCard(null)}
                           onClick={card.action}
                         >
                           <div
-                            className={`h-48 bg-gradient-to-br ${
+                            className={`h-full bg-gradient-to-br ${
                               activeCard === card.id
                                 ? card.hoverColor
                                 : card.color
@@ -212,13 +251,6 @@ function HomePage() {
                           >
                             <div className="text-white">{card.icon}</div>
                           </div>
-
-                          {/* Animated indicator */}
-                          <motion.div
-                            initial={{ scaleX: 0 }}
-                            animate={{ scaleX: activeCard === card.id ? 1 : 0 }}
-                            className={`h-1 bg-gradient-to-r ${card.color} origin-left`}
-                          ></motion.div>
                         </motion.div>
                       )
                   )}
