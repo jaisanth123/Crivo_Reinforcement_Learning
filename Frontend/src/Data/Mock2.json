@@ -1,0 +1,69 @@
+
+
+
+
+{
+    "name": "Crivo",
+    "School_code": "xyz",
+    "City_code": "abc",
+    "Class": "11",
+    "Date": "2025-03-02",
+    "Driven_by": [0, 1, 0, 1, 0, 0, 1, 0, 1, 0],
+    "Activity": {
+      "If on two Wheeler did rider and pillion wear a helmet?": [
+        0, 1, 0, 1, 0, 0, 1, 0, 1, 0
+      ],
+      "If in car did driver and passengers wear seat belts?": [
+        1, 0, 1, 1, 0, 0, 0, 1, 1, 0
+      ],
+      "Did rider/driver do excessive of hoking?": [0, 0, 1, 0, 1, 1, 0, 0, 1, 1],
+      "Did rider/driver follow traffic signals?": [1, 1, 0, 0, 1, 0, 1, 0, 0, 1],
+      "During red signal did rider / driver stop within stip line": [
+        0, 1, 1, 0, 0, 1, 1, 0, 1, 0
+      ],
+      "q6": [1, 0, 0, 1, 1, 0, 0, 1, 0, 1],
+      "q7": [0, 1, 0, 1, 0, 1, 1, 0, 0, 0],
+      "q8": [1, 1, 0, 0, 1, 0, 1, 1, 0, 0],
+      "q9": [0, 0, 1, 1, 0, 1, 0, 1, 1, 0],
+      "q10": [1, 0, 0, 1, 1, 0, 0, 1, 0, 1],
+      "q11": [0, 0, 1, 1, 0, 1, 0, 1, 1, 0],
+      "q12": [1, 0, 0, 1, 1, 0, 0, 1, 0, 1]
+    },
+    "By_Child": [0, 1, 0, 1, 0, 0],
+    "By_Parents": [0, 1]
+  }
+  {
+    "name": "Crivo",
+    "School_code": "xyz",
+    "City_code": "abc",
+    "Class": "11",
+    "Date": "2025-03-02",
+    "Driven_by": [0, 1, 0, 1, 0, 0, 1, 0, 1, 0],
+    "Activity": {
+      "If on two Wheeler did rider and pillion wear a helmet?": [
+        0, 1, 0, 1, 0, 0, 1, 0, 1, 0
+      ],
+      "If in car did driver and passengers wear seat belts?": [
+        1, 0, 1, 1, 0, 0, 0, 1, 1, 0
+      ],
+      "Did rider/driver do excessive of hoking?": [0, 0, 1, 0, 1, 1, 0, 0, 1, 1],
+      "Did rider/driver follow traffic signals?": [1, 1, 0, 0, 1, 0, 1, 0, 0, 1],
+      "During red signal did rider / driver stop within stip line": [
+        0, 1, 1, 0, 0, 1, 1, 0, 1, 0
+      ],
+      "q6": [1, 0, 0, 1, 1, 0, 0, 1, 0, 1],
+      "q7": [0, 1, 0, 1, 0, 1, 1, 0, 0, 0],
+      "q8": [1, 1, 0, 0, 1, 0, 1, 1, 0, 0],
+      "q9": [0, 0, 1, 1, 0, 1, 0, 1, 1, 0],
+      "q10": [1, 0, 0, 1, 1, 0, 0, 1, 0, 1]
+    },
+    "By_Child": [0, 1, 0, 1, 0, 0],
+    "By_Parents": [0, 1]
+  }
+  
+  
+  
+
+
+
+
