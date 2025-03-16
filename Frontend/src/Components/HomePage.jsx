@@ -44,8 +44,7 @@ function HomePage() {
   const cardOptions = [
     {
       id: 1,
-      title: "Chota Cop",
-      description: "Learn important road signs and keep safe while you ride",
+
       color: "from-yellow-400 to-yellow-500",
       hoverColor: "from-yellow-500 to-yellow-600",
       icon: (
@@ -114,62 +113,6 @@ function HomePage() {
         {/* Road Signs Component */}
         <RoadSigns />
 
-        {/* Animated background elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <motion.div
-            className="absolute top-1/4 right-1/4 opacity-10"
-            animate={{
-              x: [0, 30, 0],
-              rotate: [0, 10, 0],
-            }}
-            transition={{ repeat: Infinity, duration: 5 }}
-          >
-            <svg
-              width="80"
-              height="80"
-              viewBox="0 0 100 100"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle
-                cx="50"
-                cy="50"
-                r="45"
-                fill="#FF0000"
-                stroke="#FFFFFF"
-                strokeWidth="5"
-              />
-              <rect x="20" y="45" width="60" height="10" fill="#FFFFFF" />
-            </svg>
-          </motion.div>
-
-          <motion.div
-            className="absolute top-1/2 left-1/4 opacity-10"
-            animate={{
-              x: [0, 30, 0],
-              rotate: [0, 10, 0],
-            }}
-            transition={{ repeat: Infinity, duration: 7, delay: 0.5 }}
-          >
-            <svg
-              width="80"
-              height="80"
-              viewBox="0 0 100 100"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle
-                cx="50"
-                cy="50"
-                r="45"
-                fill="#FFFF00"
-                stroke="#000000"
-                strokeWidth="5"
-              />
-            </svg>
-          </motion.div>
-        </div>
-
         {/* Hero section with animation */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -177,7 +120,8 @@ function HomePage() {
           transition={{ duration: 0.8 }}
           className="mb-12 text-center"
         >
-          <div className="absolute right-4 top-20 z-10 hidden md:block">
+          {/* traffic signal */}
+          <div className="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 hidden md:block">
             <div className="w-10 h-24 bg-gray-800 rounded-lg flex flex-col items-center justify-around p-1">
               <motion.div
                 className="w-6 h-6 bg-red-500 rounded-full"
@@ -214,9 +158,6 @@ function HomePage() {
             YOUNG INDIANS
             <div className="absolute -bottom-2 left-0 right-0 h-2 bg-gradient-to-r from-yellow-300 to-red-500 rounded-full"></div>
           </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-8">
-            Learn how to stay safe on the road with fun interactive lessons!
-          </p>
         </motion.div>
 
         {/* Cards and PhotoUploader container */}
@@ -228,7 +169,7 @@ function HomePage() {
                 showPhotoUploader ? "md:col-span-5" : "md:col-span-12"
               }`}
             >
-              <div className="flex flex-col md:flex-row justify-center md:justify-center items-center md:space-x-6 space-y-6 md:space-y-0">
+              <div className="flex flex-col  md:flex-row justify-center md:justify-center items-center md:space-x-6 space-y-6 md:space-y-0">
                 <AnimatePresence>
                   {cardOptions.map(
                     (card, index) =>
@@ -269,48 +210,7 @@ function HomePage() {
                                 : card.color
                             } flex items-center justify-center p-6 transition-all duration-300`}
                           >
-                            <motion.div
-                              className="text-white"
-                              whileHover={{ rotate: 10, scale: 1.2 }}
-                              transition={{ type: "spring", stiffness: 300 }}
-                            >
-                              {card.icon}
-                            </motion.div>
-                          </div>
-                          <div className="p-6">
-                            <h3 className="text-xl font-bold text-gray-800 mb-2">
-                              {card.title}
-                            </h3>
-                            <p className="text-gray-600 text-sm mb-4">
-                              {card.description}
-                            </p>
-                            <motion.button
-                              whileHover={{ scale: 1.05 }}
-                              whileTap={{ scale: 0.95 }}
-                              className={`w-full py-2 rounded-lg bg-gradient-to-r ${card.color} text-white font-semibold flex items-center justify-center`}
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-5 w-5 mr-2"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth={2}
-                                  d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
-                                />
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth={2}
-                                  d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                />
-                              </svg>
-                              Start Now
-                            </motion.button>
+                            <div className="text-white">{card.icon}</div>
                           </div>
 
                           {/* Animated indicator */}
@@ -464,9 +364,14 @@ function HomePage() {
               strokeWidth="2"
               fill="none"
             />
+            <rect x="5" y="10" width="45" height="15" rx="5" fill="#4f46e5" />
             <motion.g
               animate={{ rotate: [0, 360] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "linear",
+              }}
               style={{ transformOrigin: "10px 30px" }}
             >
               <line
@@ -496,7 +401,11 @@ function HomePage() {
             </motion.g>
             <motion.g
               animate={{ rotate: [0, 360] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "linear",
+              }}
               style={{ transformOrigin: "45px 30px" }}
             >
               <line
@@ -560,60 +469,46 @@ function HomePage() {
             <rect x="25" y="5" width="10" height="5" rx="2" fill="#f59e0b" />
           </svg>
         </motion.div>
-
-        {/* Animated Car */}
-
-        {/* Road-themed decorative elements */}
-        <div className="w-full max-w-5xl mt-16 opacity-20 pointer-events-none mx-auto">
-          <div className="h-6 bg-gray-800 relative">
-            <div className="absolute inset-0 flex justify-center items-center">
-              <div className="w-1/2 h-2 bg-yellow-400 flex">
-                <motion.div
-                  className="w-1/6 h-full bg-yellow-400 mr-4"
-                  animate={{ x: [-100, 300], opacity: [0, 1, 1, 0] }}
-                  transition={{ repeat: Infinity, duration: 3, ease: "linear" }}
-                />
-                <motion.div
-                  className="w-1/6 h-full bg-yellow-400 mr-4"
-                  animate={{ x: [-100, 300], opacity: [0, 1, 1, 0] }}
-                  transition={{
-                    repeat: Infinity,
-                    duration: 3,
-                    delay: 1,
-                    ease: "linear",
-                  }}
-                />
-                <motion.div
-                  className="w-1/6 h-full bg-yellow-400"
-                  animate={{ x: [-100, 300], opacity: [0, 1, 1, 0] }}
-                  transition={{
-                    repeat: Infinity,
-                    duration: 3,
-                    delay: 2,
-                    ease: "linear",
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
       </main>
 
-      {/* Footer with wave effect */}
-      <footer className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white relative mt-16">
-        <div className="absolute top-0 w-full h-6 overflow-hidden">
-          <div
-            className="absolute left-0 w-full h-full"
-            style={{
-              transform: "rotate(180deg)",
-              clipPath:
-                "polygon(0% 0%, 5% 100%, 10% 0%, 15% 100%, 20% 0%, 25% 100%, 30% 0%, 35% 100%, 40% 0%, 45% 100%, 50% 0%, 55% 100%, 60% 0%, 65% 100%, 70% 0%, 75% 100%, 80% 0%, 85% 100%, 90% 0%, 95% 100%, 100% 0%)",
-            }}
-          ></div>
-        </div>
-        <div className="container mx-auto px-4 py-10">
-          <div className="text-center">
-            <p>© 2025 Road Safety for Kids. All rights reserved.</p>
+      {/* Footer */}
+      <footer className="bg-gray-800 text-white py-6">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="mb-4 md:mb-0">
+              <p className="text-sm">
+                © 2023 Road Safety for Kids. All rights reserved.
+              </p>
+            </div>
+            <div className="flex space-x-4">
+              <a href="#" className="text-gray-400 hover:text-white">
+                <svg
+                  className="h-6 w-6"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z" />
+                </svg>
+              </a>
+              <a href="#" className="text-gray-400 hover:text-white">
+                <svg
+                  className="h-6 w-6"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723 10.054 10.054 0 01-3.127 1.184 4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
+                </svg>
+              </a>
+              <a href="#" className="text-gray-400 hover:text-white">
+                <svg
+                  className="h-6 w-6"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z" />
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
       </footer>

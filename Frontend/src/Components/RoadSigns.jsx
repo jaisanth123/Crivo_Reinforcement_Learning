@@ -28,8 +28,9 @@ const roadSigns = [
     description:
       "Mandatory sign indicating that a driver must come to a complete stop at the stop line. Proceed only when it's safe and after giving way to vehicles and pedestrians.",
     color: "bg-red-600",
-    position: "top-5 right-5",
+    position: "top-32 right-5",
     category: "Mandatory",
+    side: "right",
   },
   {
     id: 2,
@@ -52,6 +53,7 @@ const roadSigns = [
     color: "bg-red-600",
     position: "bottom-5 left-5",
     category: "Prohibitory",
+    side: "left",
   },
   {
     id: 3,
@@ -89,8 +91,9 @@ const roadSigns = [
     description:
       "Indicates the maximum speed limit of 40 kilometers per hour. Exceeding this speed is an offense under the Motor Vehicles Act in India.",
     color: "bg-red-600",
-    position: "top-5 left-5",
+    position: "top-32 left-5",
     category: "Regulatory",
+    side: "left",
   },
   {
     id: 4,
@@ -114,6 +117,7 @@ const roadSigns = [
     color: "bg-blue-600",
     position: "bottom-5 right-5",
     category: "Cautionary",
+    side: "right",
   },
   {
     id: 5,
@@ -159,8 +163,9 @@ const roadSigns = [
     description:
       "Indicates that parking is not allowed at any time. Violating this rule can result in fines or vehicle towing as per Indian traffic regulations.",
     color: "bg-red-600",
-    position: "top-20 right-20",
+    position: "top-48 right-20",
     category: "Prohibitory",
+    side: "right",
   },
   {
     id: 6,
@@ -193,6 +198,7 @@ const roadSigns = [
     color: "bg-yellow-500",
     position: "bottom-20 left-20",
     category: "Cautionary",
+    side: "left",
   },
   {
     id: 7,
@@ -225,8 +231,9 @@ const roadSigns = [
     description:
       "Prohibits overtaking or passing other vehicles. This sign is typically placed on roads where overtaking is dangerous due to poor visibility or road conditions.",
     color: "bg-red-600",
-    position: "top-20 left-20",
+    position: "top-48 left-20",
     category: "Prohibitory",
+    side: "left",
   },
 ];
 
@@ -269,78 +276,80 @@ function RoadSigns() {
       <AnimatePresence>
         {activeSign && (
           <motion.div
-            className="fixed inset-0 backdrop-blur-xl z-50 flex items-center justify-center p-4"
-            initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
-            animate={{ opacity: 1, backdropFilter: "blur(16px)" }}
-            exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
-            transition={{ duration: 0.4 }}
-            onClick={handleClosePopup}
+            className="fixed inset-0 z-50 pointer-events-none"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
           >
+            <div
+              className="absolute inset-0  pointer-events-auto"
+              onClick={handleClosePopup}
+            />
+
             <motion.div
-              className="bg-white/90 rounded-xl overflow-hidden max-w-md w-full shadow-2xl border border-white/20"
-              initial={{ scale: 0.9, y: 20, opacity: 0 }}
-              animate={{ scale: 1, y: 0, opacity: 1 }}
-              exit={{ scale: 0.9, y: 20, opacity: 0 }}
+              className={`absolute pointer-events-auto ${
+                activeSign.side === "left"
+                  ? "left-5 top-117 -translate-y-1/2"
+                  : "right-5 top-117 -translate-y-1/2"
+              }`}
+              style={{
+                maxWidth: "220px",
+              }}
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
               transition={{
-                duration: 0.5,
+                duration: 0.3,
                 type: "spring",
                 stiffness: 300,
                 damping: 30,
               }}
-              onClick={(e) => e.stopPropagation()}
             >
-              <div
-                className={`${activeSign.color} p-4 flex items-center justify-between bg-opacity-90`}
-              >
-                <h3 className="text-white font-bold text-xl">
-                  {activeSign.name}
-                </h3>
-                <span className="text-white text-sm px-2 py-1 bg-white/20 rounded-full backdrop-blur-sm">
-                  {activeSign.category}
-                </span>
-                <button
-                  onClick={handleClosePopup}
-                  className="text-white hover:text-gray-200 transition-colors"
+              <div className="bg-white rounded-lg shadow-xl border border-white/20 overflow-hidden">
+                <div
+                  className={`${activeSign.color} p-2 flex items-center justify-between bg-opacity-90`}
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-              </div>
-              <div className="p-6 backdrop-blur-sm bg-white/70">
-                <div className="flex justify-center mb-6">
-                  <motion.div
-                    className="w-24 h-24 filter drop-shadow-md"
-                    initial={{ rotateY: 0 }}
-                    animate={{ rotateY: 360 }}
-                    transition={{ duration: 1.5, delay: 0.2 }}
-                  >
-                    {activeSign.svg}
-                  </motion.div>
-                </div>
-                <p className="text-gray-700 text-center mb-6">
-                  {activeSign.description}
-                </p>
-                <div className="flex justify-center">
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+                  <h3 className="text-white font-bold text-sm">
+                    {activeSign.name}
+                  </h3>
+                  <button
                     onClick={handleClosePopup}
-                    className={`px-6 py-2 ${activeSign.color} text-white rounded-lg font-medium shadow-md hover:shadow-lg transition-all duration-300`}
+                    className="text-white hover:text-gray-200 transition-colors"
                   >
-                    Got it!
-                  </motion.button>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <div className="p-3 bg-white">
+                  <div className="flex justify-center mb-2">
+                    <div className="w-14 h-14 filter drop-shadow-md">
+                      {activeSign.svg}
+                    </div>
+                  </div>
+                  <p className="text-gray-700 text-xs mb-2">
+                    {activeSign.description}
+                  </p>
+                  <div className="flex justify-center">
+                    <button
+                      onClick={handleClosePopup}
+                      className={`px-3 py-1 ${activeSign.color} text-white text-xs rounded-lg font-medium shadow-md hover:shadow-lg transition-all duration-300`}
+                    >
+                      Got it!
+                    </button>
+                  </div>
                 </div>
               </div>
             </motion.div>

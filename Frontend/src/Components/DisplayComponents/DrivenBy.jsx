@@ -15,13 +15,6 @@ function DrivenBy({ drivenBy, binaryToYesNo, countOccurrences }) {
       <div className="p-0.5 bg-gradient-to-r from-green-500 to-teal-600"></div>
       <div className="p-4">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2 gap-2 sm:gap-0">
-          <h2 className="text-lg font-semibold text-gray-800 flex items-center">
-            <span className="bg-green-100 text-green-600 p-1 rounded-md mr-2">
-              <Users className="h-4 w-4" />
-            </span>
-            Driven By
-          </h2>
-
           {/* Parent and Other counts in top right */}
           <div className="flex space-x-2">
             <div className="px-2 py-0.5 bg-green-100 rounded-full text-xs font-medium text-green-800 flex items-center">
@@ -44,14 +37,14 @@ function DrivenBy({ drivenBy, binaryToYesNo, countOccurrences }) {
                 key={`ride-header-${index}`}
                 className="text-center font-medium text-xs text-gray-700"
               >
-                R{index + 1}
+                Ride {index + 1}
               </div>
             ))}
           </div>
 
           <div className="grid grid-cols-11 gap-1 mb-3">
             <div className="font-medium text-xs text-gray-700 flex items-center">
-              <span>By:</span>
+              <span>Driven By:</span>
             </div>
             {drivenBy.map((value, index) => (
               <motion.div
@@ -62,9 +55,6 @@ function DrivenBy({ drivenBy, binaryToYesNo, countOccurrences }) {
                 className="text-center"
               >
                 <div className="bg-gray-100 rounded-md p-1 relative">
-                  <div className="absolute -top-1 -right-1 bg-gray-700 text-white text-xs px-1 py-0 rounded-full text-xs">
-                    W{index}
-                  </div>
                   <span
                     className={
                       value === 1
@@ -72,7 +62,7 @@ function DrivenBy({ drivenBy, binaryToYesNo, countOccurrences }) {
                         : "text-blue-600 font-medium text-xs"
                     }
                   >
-                    {value === 1 ? "Parents" : "Others"}
+                    {value === 1 ? "Parent" : "Other"}
                   </span>
                 </div>
               </motion.div>

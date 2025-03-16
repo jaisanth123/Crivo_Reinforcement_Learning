@@ -23,7 +23,7 @@ function Activity({ activity, getActivityQuestionText, binaryToYesNo }) {
         <div className="flex items-center">
           <ActivityIcon className="h-5 w-5 text-blue-600 mr-2" />
           <h2 className="text-lg font-bold text-gray-800">
-            Road Safety Assessment
+            Chota Cop Assessment
           </h2>
         </div>
         {/* <ChevronDown
