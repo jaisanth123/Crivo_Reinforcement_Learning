@@ -5,18 +5,18 @@ export const countOccurrences = (arr, value) =>
 
 export const getActivityQuestionText = (questionId) => {
   const activityQuestionMap = {
-    q1: "If on a two-wheeler, did the rider and pillion wear helmets?",
-    q2: "If in a car, did the driver and passengers wear seat belts?",
-    q3: "Did the rider/driver excessively honk?",
-    q4: "Did the rider/driver follow traffic signals?",
-    q5: "During a red signal, did the rider/driver stop within the stop line?",
-    q6: "Did the rider/driver use a cell phone while riding/driving?",
-    q7: "Did the rider/driver frequently change lanes?",
-    q8: "Did the rider/driver drive in a no-entry zone?",
-    q9: "Did they give way to pedestrians?",
-    q10: "If in an auto, did they overload the auto?",
-    q11: "If you were on a two-wheeler, did you triple ride?",
-    q12: "Did your rider/driver have a driving license and insurance?",
+    A: "If on a two-wheeler, did the rider and pillion wear helmets?",
+    B: "If in a car, did the driver and passengers wear seat belts?",
+    C: "Did the rider/driver excessively honk?",
+    D: "Did the rider/driver follow traffic signals?",
+    E: "During a red signal, did the rider/driver stop within the stop line?",
+    F: "Did the rider/driver use a cell phone while riding/driving?",
+    G: "Did the rider/driver frequently change lanes?",
+    H: "Did the rider/driver drive in a no-entry?",
+    I: "Did they give way to pedestrians?",
+    J: "If in an auto, did they overload the auto?",
+    K: "If you were on a two-wheeler, did you triple ride?",
+    L: "Did your rider/driver have a driving license and insurance?",
   };
   return activityQuestionMap[questionId] || questionId;
 };

@@ -189,28 +189,7 @@ const CityDropdown = ({
   onCityCodeChange,
 }) => {
   // Validation states
-  const [classError, setClassError] = useState("");
   const [emailError, setEmailError] = useState("");
-
-  // Validate class input (should be numbers only)
-  const validateClass = (value) => {
-    // Allow "Class" prefix followed by numbers
-    const classPattern = /^(Class\s+)?[0-9]+$/;
-
-    if (!value) {
-      setClassError("");
-      onClassChange(value);
-      return;
-    }
-
-    if (!classPattern.test(value)) {
-      setClassError("Class should contain numbers only (e.g. Class 5)");
-    } else {
-      setClassError("");
-    }
-
-    onClassChange(value);
-  };
 
   // Validate email format
   const validateEmail = (value) => {
@@ -280,20 +259,18 @@ const CityDropdown = ({
             </div>
             <label className="font-medium text-green-800">Class:</label>
           </div>
-          <input
-            type="text"
+          <select
             value={className || ""}
-            onChange={(e) => validateClass(e.target.value)}
-            placeholder="Example: Class 5"
-            className={`w-full px-4 py-3 rounded-xl border-2 ${
-              classError
-                ? "border-red-400"
-                : "border-green-200 focus:border-green-400"
-            } focus:outline-none text-lg`}
-          />
-          {classError && (
-            <p className="text-red-500 text-sm mt-2">{classError}</p>
-          )}
+            onChange={(e) => onClassChange(e.target.value)}
+            className="w-full px-4 py-3 rounded-xl border-2 border-green-200 focus:border-green-400 focus:outline-none text-lg appearance-none bg-white"
+          >
+            <option value="">Select your class</option>
+            {[...Array(12)].map((_, index) => (
+              <option key={index} value={`${index + 1}`}>
+                {index + 1}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className="bg-white p-4 rounded-lg shadow-md border-2 border-purple-300">
