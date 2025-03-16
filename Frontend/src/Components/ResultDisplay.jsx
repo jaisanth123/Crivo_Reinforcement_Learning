@@ -288,7 +288,7 @@ function ResultDisplay() {
                 className="flex items-center px-4 py-2 rounded-full bg-green-100 hover:bg-green-200 text-sm font-medium text-green-700 transition-colors duration-200"
               >
                 <Printer className="h-4 w-4 mr-2" />
-                Export PDF
+                Print PDF
               </button>
             </div>
           </motion.div>
