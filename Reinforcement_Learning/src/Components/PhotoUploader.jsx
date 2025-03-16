@@ -22,7 +22,7 @@ function PhotoUploader() {
   const [isLoading, setIsLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [apiResponse, setApiResponse] = useState(null);
-  const [useMockData, setUseMockData] = useState(true);
+  const [useMockData, setUseMockData] = useState(false);
   const [name, setName] = useState("");
   const [className, setClassName] = useState("");
   const [selectedSchool, setSelectedSchool] = useState("");
@@ -290,7 +290,7 @@ function PhotoUploader() {
 
         // Important: Incorporate form data into the response
         response = {
-          ...mockData.model_output,
+          ...mockData,
           name: name,
           School_code: selectedSchool,
           City_code: selectedCity,
@@ -300,7 +300,7 @@ function PhotoUploader() {
         // Make the actual API call
         console.log("Using real API path");
         const formData = new FormData();
-        formData.append("img", selectedFile);
+        formData.append("file", selectedFile);
 
         // Add form data to API request
         formData.append("name", name);
@@ -310,7 +310,7 @@ function PhotoUploader() {
         formData.append("email", email);
 
         const apiResponse = await axios.post(
-          import.meta.env.VITE_CRIVO_API,
+          "http://127.0.0.1:8000/upload/",
           formData,
           {
             headers: {
@@ -325,9 +325,9 @@ function PhotoUploader() {
           }
         );
 
-        // Extract model_output from the response and merge with form data
+        // Extract data from the response and merge with form data
         response = {
-          ...apiResponse.data.model_output,
+          ...apiResponse.data,
           name: name,
           School_code: selectedSchool,
           City_code: selectedCity,

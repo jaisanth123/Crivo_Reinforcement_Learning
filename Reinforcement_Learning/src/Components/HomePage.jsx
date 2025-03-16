@@ -120,7 +120,7 @@ function HomePage() {
 
       <main className="flex-grow container mx-auto px-4 py-8 relative overflow-hidden">
         {/* Road Signs Component */}
-        <RoadSigns />
+        {/* <RoadSigns /> */}
 
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
