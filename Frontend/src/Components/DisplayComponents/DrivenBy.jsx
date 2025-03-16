@@ -9,24 +9,23 @@ function DrivenBy({ drivenBy, binaryToYesNo, countOccurrences }) {
 
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
-      <div className="p-4">
-        <div className="flex items-center space-x-2 mb-4">
-          <div className="px-2 py-0.5 bg-green-100 rounded-full text-xs font-medium text-green-800 flex items-center">
-            <User className="h-3 w-3 mr-1" />
-            Parents: {countParents}
-          </div>
-          <div className="px-2 py-0.5 bg-blue-100 rounded-full text-xs font-medium text-blue-800 flex items-center">
-            <Users className="h-3 w-3 mr-1" />
-            Others: {countOthers}
-          </div>
-        </div>
+      <div className="p-2">
+        <div className="flex items-center space-x-2 "></div>
 
         <div className="overflow-x-auto">
           <table className="w-full text-xs sm:text-sm">
             <thead>
               <tr className="bg-gray-50">
-                <th className="py-2 px-2 text-left font-semibold text-gray-700 border-b border-gray-200 w-1/3">
+                <th className="py-2 px-2 text-left flex flex-row font-semibold text-gray-700 border-b border-gray-200 ">
                   Driven By
+                  <div className="px-2 py-0.5 bg-green-100 rounded-full ml-6 text-xs font-medium text-green-800 flex items-center">
+                    <User className="h-3 w-3 mr-1" />
+                    Parents: {countParents}
+                  </div>
+                  <div className="px-2 py-0.5 bg-blue-100 rounded-full ml-6 text-xs font-medium text-blue-800 flex items-center">
+                    <Users className="h-3 w-3 mr-1" />
+                    Others: {countOthers}
+                  </div>
                 </th>
                 {rideNumbers.map((num) => (
                   <th

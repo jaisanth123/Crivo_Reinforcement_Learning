@@ -20,12 +20,6 @@ function Activity({ activity, getActivityQuestionText, binaryToYesNo }) {
         className="p-4 flex items-center justify-between cursor-pointer"
         onClick={() => setIsExpanded(!isExpanded)}
       >
-        <div className="flex items-center">
-          <ActivityIcon className="h-5 w-5 text-blue-600 mr-2" />
-          <h2 className="text-lg font-bold text-gray-800">
-            Chota Cop Assessment
-          </h2>
-        </div>
         {/* <ChevronDown
           className={`h-5 w-5 text-gray-600 transition-transform duration-300 ${
             isExpanded ? "transform rotate-180" : ""

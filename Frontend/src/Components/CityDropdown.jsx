@@ -211,107 +211,102 @@ const CityDropdown = ({
   };
 
   return (
-    <div className="bg-gradient-to-r w-100 from-orange-100 to-yellow-100 p-6 rounded-xl shadow-lg">
-      <div className="space-y-4">
-        <div className="bg-white p-4 rounded-lg shadow-md border-2 border-orange-300">
-          <div className="flex items-center mb-2">
-            {/* <div className="text-orange-500 mr-2">
+    <div className=" bg-white rounded-xl ">
+      <div className="space-y-2">
+        {/* <div className="bg-white p-4 rounded-lg shadow-md border-2 border-orange-300"> */}
+        <div className="flex items-center mb-2">
+          {/* <div className="text-orange-500 mr-2">
               <NameIcon />
             </div> */}
-            {/* <label className="font-medium text-orange-800">Name:</label> */}
-          </div>
-          <input
-            type="text"
-            value={name || ""}
-            onChange={(e) => onNameChange(e.target.value)}
-            placeholder="Full Name"
-            className="w-full px-4 py-3 rounded-xl border-2 border-orange-200 focus:border-orange-400 focus:outline-none text-lg"
-          />
+          {/* <label className="font-medium text-orange-800">Name:</label> */}
         </div>
+        <input
+          type="text"
+          value={name || ""}
+          onChange={(e) => onNameChange(e.target.value)}
+          placeholder="Full Name"
+          className="w-full px-4 py-3 rounded-xl border-2 border-orange-200 focus:border-orange-400 focus:outline-none text-lg"
+        />
+        {/* </div> */}
 
-        <div className="bg-white p-4 rounded-lg shadow-md border-2 border-blue-300">
-          <div className="flex items-center mb-2">
-            {/* <div className="text-blue-500 mr-2">
+        {/* <div className="bg-white p-4 rounded-lg shadow-md border-2 border-blue-300"> */}
+        <div className="flex items-center mb-2">
+          {/* <div className="text-blue-500 mr-2">
               <EmailIcon />
             </div> */}
-          </div>
-          <input
-            type="email"
-            value={email || ""}
-            onChange={(e) => validateEmail(e.target.value)}
-            placeholder="example@email.com"
-            className={`w-full px-4 py-3 rounded-xl border-2 ${
-              emailError
-                ? "border-red-400"
-                : "border-blue-200 focus:border-blue-400"
-            } focus:outline-none text-lg`}
-          />
-          {emailError && (
-            <p className="text-red-500 text-sm mt-2">{emailError}</p>
-          )}
         </div>
+        <input
+          type="email"
+          value={email || ""}
+          onChange={(e) => validateEmail(e.target.value)}
+          placeholder="example@email.com"
+          className={`w-full px-4 py-3 rounded-xl border-2 ${
+            emailError
+              ? "border-red-400"
+              : "border-blue-200 focus:border-blue-400"
+          } focus:outline-none text-lg`}
+        />
+        {emailError && (
+          <p className="text-red-500 text-sm mt-2">{emailError}</p>
+        )}
+        {/* </div> */}
 
-        <div className="bg-white p-4 rounded-lg shadow-md border-2 border-purple-300">
-          <div className="flex items-center mb-2">
-            {/* <div className="text-purple-500 mr-2">
+        {/* <div className="bg-white p-4 rounded-lg shadow-md border-2 border-purple-300"> */}
+        <div className="flex items-center mb-2">
+          {/* <div className="text-purple-500 mr-2">
               <CityIcon />
-            </div> */}
-          </div>
-          <select
-            value={selectedCity || ""}
-            onChange={(e) => onCityChange(e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border-2 border-purple-200 focus:border-purple-400 focus:outline-none text-lg appearance-none bg-white"
-          >
-            <option value="">Chatper Name</option>
-            {cities.map((city, index) => (
-              <option key={index} value={city}>
-                {city}
-              </option>
-            ))}
-          </select>
+            </div>   */}
         </div>
+        <select
+          value={selectedCity || ""}
+          onChange={(e) => onCityChange(e.target.value)}
+          className="w-full px-4 py-3 rounded-xl border-2 border-purple-200 focus:border-purple-400 focus:outline-none text-lg appearance-none bg-white"
+        >
+          <option value="">Chatper Name</option>
+          {cities.map((city, index) => (
+            <option key={index} value={city}>
+              {city}
+            </option>
+          ))}
+        </select>
+        {/* </div> */}
 
-        <div className="bg-white p-4 rounded-lg shadow-md border-2 border-red-300">
-          <div className="flex items-center mb-2">
-            {/* <div className="text-red-500 mr-2">
+        {/* <div className="bg-white p-4 rounded-lg shadow-md border-2 border-red-300"> */}
+        <div className="flex items-center mb-2">
+          {/* <div className="text-red-500 mr-2">
               <SchoolIcon />
             </div> */}
-          </div>
-          <select
-            value={selectedSchool || ""}
-            onChange={(e) => onSchoolChange(e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border-2 border-red-200 focus:border-red-400 focus:outline-none text-lg appearance-none bg-white"
-          >
-            <option value="">Pick your school</option>
-            {schools.map((school, index) => (
-              <option key={index} value={school}>
-                {school}
-              </option>
-            ))}
-          </select>
         </div>
+        <select
+          value={selectedSchool || ""}
+          onChange={(e) => onSchoolChange(e.target.value)}
+          className="w-full px-4 py-3 rounded-xl border-2 border-red-200 focus:border-red-400 focus:outline-none text-lg appearance-none bg-white"
+        >
+          <option value="">Pick your school</option>
+          {schools.map((school, index) => (
+            <option key={index} value={school}>
+              {school}
+            </option>
+          ))}
+        </select>
+        {/* </div> */}
 
-        <div className="bg-white p-4 rounded-lg shadow-md border-2 border-green-300">
-          <div className="flex items-center mb-2">
-            {/* <div className="text-green-500 mr-2">
+        {/* <div className="bg-white p-4 rounded-lg shadow-md border-2 border-green-300"> */}
+        <div className="flex items-center mb-2">
+          {/* <div className="text-green-500 mr-2">
               <ClassIcon />
             </div> */}
-          </div>
-          <select
-            value={className || ""}
-            onChange={(e) => onClassChange(e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border-2 border-green-200 focus:border-green-400 focus:outline-none text-lg appearance-none bg-white"
-          >
-            <option value="">Class</option>
-            {[...Array(12)].map((_, index) => (
-              <option key={index} value={`${index + 1}`}>
-                {index + 1}
-              </option>
-            ))}
-          </select>
         </div>
+        <input
+          type="text"
+          value={className || ""}
+          onChange={(e) => onClassChange(e.target.value)}
+          placeholder="Class"
+          className="w-full px-4 py-3 rounded-xl border-2 border-green-200 focus:border-green-400 focus:outline-none text-lg"
+        />
       </div>
     </div>
+    // </div>
   );
 };
 

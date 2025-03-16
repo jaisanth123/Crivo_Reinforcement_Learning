@@ -162,7 +162,7 @@ function HomePage() {
 
           <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4 relative inline-block">
             YOUNG INDIANS
-            <div className="absolute -bottom-2 left-0 right-0 h-2 bg-gradient-to-r from-orange-500 via-white to-green-500 rounded-full"></div>
+            <div className="absolute  left-0 right-0 h-2 bg-gradient-to-r from-orange-500 via-white to-green-500 rounded-full"></div>
           </h1>
         </motion.div>
 
@@ -233,7 +233,7 @@ function HomePage() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
               >
-                <div className="bg-white rounded-2xl w-120 shadow-xl overflow-hidden">
+                <div className="bg-white rounded-2xl w-90 shadow-xl overflow-hidden">
                   <div className="h-12 bg-gradient-to-r from-yellow-500 to-yellow-600 flex items-center justify-between px-4">
                     <button
                       onClick={handleClosePhotoUploader}

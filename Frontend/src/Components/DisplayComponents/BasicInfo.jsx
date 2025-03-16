@@ -34,25 +34,7 @@ function BasicInfo({ basicInfo }) {
       transition={{ duration: 0.3 }}
     >
       <div className="p-0.5 bg-gradient-to-r from-blue-500 to-purple-600"></div>
-      <div className="p-3 sm:p-4">
-        <h2 className="text-lg font-semibold mb-3 text-gray-800 flex items-center">
-          <span className="bg-blue-100 text-blue-600 p-1 rounded-md mr-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M10 2a8 8 0 100 16 8 8 0 000-16zm0 14a6 6 0 100-12 6 6 0 000 12zm0-9a1 1 0 011 1v3a1 1 0 01-1 1H7a1 1 0 110-2h2V8a1 1 0 011-1z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </span>
-          Basic Information
-        </h2>
-
+      <div className="p-2">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3">
           {infoItems.map((item, index) => (
             <motion.div

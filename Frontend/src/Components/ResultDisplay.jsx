@@ -263,7 +263,7 @@ function ResultDisplay() {
                 <ArrowLeft className="h-5 w-5 text-blue-600" />
               </button>
               <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
-                Analysis Results
+                Chota Cop Analysis Results
               </h1>
             </div>
             <div className="flex items-center space-x-3">
