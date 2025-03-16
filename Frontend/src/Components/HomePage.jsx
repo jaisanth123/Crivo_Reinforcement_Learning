@@ -60,7 +60,7 @@ function HomePage() {
     {
       id: 2,
       title: "Safety Quiz",
-      description: "Test your knowledge with fun interactive quizzes",
+      description: "Test  your knowledge with fun interactive quizzes",
       color: "from-green-400 to-green-500",
       hoverColor: "from-green-500 to-green-600",
       icon: (
