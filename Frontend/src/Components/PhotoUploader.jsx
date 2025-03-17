@@ -511,7 +511,7 @@ function PhotoUploader() {
           <div className="mt-3">
             <div className="relative h-2 bg-gray-200 rounded-full overflow-hidden">
               <motion.div
-                className="absolute top-0 left-0 h-full bg-gradient-to-r from-yellow-400 to-yellow-500"
+                className="absolute top-0 left-0 h-full bg-gradient-to-r from-yellow-400 to-yellotew-500"
                 style={{ width: `${progress}%` }}
                 initial={{ width: "0%" }}
                 animate={{ width: `${progress}%` }}
@@ -530,9 +530,9 @@ function PhotoUploader() {
 
         <div className="mt-2">
           {!selectedFile ? (
-            <div className="flex flex-col items-center p-3 border-2 border-yellow-300 rounded-lg">
+            <div className="flex flex-col items-center p-3 border-2 border-gray-300 rounded-lg">
               <div className="flex items-center gap-4">
-                <svg
+                {/* <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6 text-yellow-500"
                   viewBox="0 0 20 20"
@@ -543,12 +543,12 @@ function PhotoUploader() {
                     d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"
                     clipRule="evenodd"
                   />
-                </svg>
+                </svg> */}
                 <button
                   onClick={handleBrowseClick}
-                  className="px-3 py-1.5 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 transition-colors"
+                  className="px-3 py-1.5 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition-colors"
                 >
-                  Browse Files
+                  Upload PDF
                 </button>
               </div>
               <input
@@ -560,10 +560,10 @@ function PhotoUploader() {
               />
             </div>
           ) : (
-            <div className="flex items-center p-2 bg-yellow-50 rounded-md border border-yellow-200">
+            <div className="flex items-center p-2 bg-gray-50 rounded-md border border-gray-200">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 text-yellow-500 mr-2"
+                className="h-5 w-5 text-gray-500 mr-2"
                 viewBox="0 0 20 20"
                 fill="currentColor"
               >
@@ -603,17 +603,17 @@ function PhotoUploader() {
             whileTap={{ scale: 0.98 }}
             onClick={uploadPhoto}
             disabled={!isFormValid() || isLoading || isGeneratingCertificate}
-            className={`py-2 px-4 rounded-md text-white text-sm font-medium ${
+            className={`py-2  px-4 rounded-md text-white text-xl font-medium ${
               !isFormValid() || isLoading || isGeneratingCertificate
-                ? "bg-gray-400 cursor-not-allowed"
+                ? "bg-yellow-400 cursor-not-allowed"
                 : "bg-yellow-500 hover:bg-yellow-600"
             }`}
           >
             {isLoading
-              ? "Processing..."
+              ? "Analyzing..."
               : isGeneratingCertificate
               ? "Generating Certificate..."
-              : "Process PDF"}
+              : "Analyze "}
           </motion.button>
         </div>
       </div>

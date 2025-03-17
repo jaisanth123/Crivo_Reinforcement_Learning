@@ -237,9 +237,9 @@ const CityDropdown = ({
             value={name || ""}
             onChange={(e) => onNameChange(e.target.value)}
             placeholder="Full Name"
-            className="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-orange-200 focus:border-orange-400 focus:outline-none text-lg"
+            className="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-gray-200 focus:border-gray-400 focus:outline-none text-lg"
           />
-          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-orange-500">
+          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
             <NameIcon />
           </div>
         </div>
@@ -254,10 +254,10 @@ const CityDropdown = ({
             className={`w-full pl-12 pr-4 py-3 rounded-xl border-2 ${
               emailError
                 ? "border-red-400"
-                : "border-blue-200 focus:border-blue-400"
+                : "border-gray-200 focus:border-gray-400"
             } focus:outline-none text-lg`}
           />
-          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-500">
+          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
             <EmailIcon />
           </div>
           {emailError && (
@@ -270,7 +270,7 @@ const CityDropdown = ({
           <select
             value={selectedCity || ""}
             onChange={(e) => onCityChange(e.target.value)}
-            className="w-full pl-12 pr-12 py-3 rounded-xl border-2 border-purple-200 focus:border-purple-400 focus:outline-none text-lg appearance-none bg-white"
+            className="w-full pl-12 pr-12 py-3 rounded-xl border-2 border-gray-200 focus:border-gray-400 focus:outline-none text-gray-500 text-lg appearance-none bg-white"
           >
             <option value="">Chapter Name</option>
             {cities.map((city, index) => (
@@ -279,10 +279,10 @@ const CityDropdown = ({
               </option>
             ))}
           </select>
-          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-500">
+          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
             <CityIcon />
           </div>
-          <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-purple-500 pointer-events-none">
+          <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none">
             <DropdownArrowIcon />
           </div>
         </div>
@@ -292,7 +292,7 @@ const CityDropdown = ({
           <select
             value={selectedSchool || ""}
             onChange={(e) => onSchoolChange(e.target.value)}
-            className="w-full pl-12 pr-12 py-3 rounded-xl border-2 border-red-200 focus:border-red-400 focus:outline-none text-lg appearance-none bg-white"
+            className="w-full pl-12 pr-12 py-3 rounded-xl border-2 border-gray-200 focus:gray-red-400 text-gray-500 focus:outline-none text-lg appearance-none bg-white"
           >
             <option value="">Pick your school</option>
             {schools.map((school, index) => (
@@ -301,10 +301,10 @@ const CityDropdown = ({
               </option>
             ))}
           </select>
-          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-red-500">
+          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
             <SchoolIcon />
           </div>
-          <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-red-500 pointer-events-none">
+          <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none">
             <DropdownArrowIcon />
           </div>
         </div>
@@ -316,9 +316,9 @@ const CityDropdown = ({
             value={className || ""}
             onChange={(e) => onClassChange(e.target.value)}
             placeholder="Class"
-            className="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-green-200 focus:border-green-400 focus:outline-none text-lg"
+            className="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-gray-200 focus:border-gray-400 focus:outline-none text-lg"
           />
-          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-green-500">
+          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
             <ClassIcon />
           </div>
         </div>

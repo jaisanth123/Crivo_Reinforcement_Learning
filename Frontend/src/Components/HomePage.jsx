@@ -7,6 +7,7 @@ import chotaCopLogo from "../assets/CH.png";
 import CII_Logo from "../assets/CII_Logo.png";
 import YI_Logo from "../assets/YI_Logo.png";
 import FarishteyLogo from "../assets/Faristhey.png";
+import RS from "../assets/RS.png";
 
 function HomePage() {
   const navigate = useNavigate();
@@ -52,50 +53,51 @@ function HomePage() {
   const cardOptions = [
     {
       id: 1,
-      color: "from-yellow-400 to-yellow-500",
-      hoverColor: "from-yellow-500 to-yellow-600",
+      // color: "from-yellow-400 to-yellow-500",
+      color: "from-red-500 to-red-500",
+      hoverColor: "from-red-500 to-red-600",
       icon: (
         <img
           src={chotaCopLogo}
           alt="Chota Cop Logo"
-          className="h-40 w-40 object-contain"
+          className="h-35 w-35 object-contain"
         />
       ),
       action: handleChotaCopClick,
     },
+    // {
+    //   id: 2,
+    //   title: "Safety Quiz",
+    //   description: "Test your knowledge with fun interactive quizzes",
+    //   color: "from-green-500 to-green-600",
+    //   hoverColor: "from-green-500 to-green-600",
+    //   icon: (
+    //     <svg
+    //       xmlns="http://www.w3.org/2000/svg"
+    //       className="h-12 w-12"
+    //       fill="none"
+    //       viewBox="0 0 24 24"
+    //       stroke="currentColor"
+    //     >
+    //       <path
+    //         strokeLinecap="round"
+    //         strokeLinejoin="round"
+    //         strokeWidth={2}
+    //         d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+    //       />
+    //     </svg>
+    //   ),
+    //   action: handleSafetyQuizClick,
+    // },
     {
       id: 2,
-      title: "Safety Quiz",
-      description: "Test your knowledge with fun interactive quizzes",
-      color: "from-green-500 to-green-600",
-      hoverColor: "from-green-500 to-green-600",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-12 w-12"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-          />
-        </svg>
-      ),
-      action: handleSafetyQuizClick,
-    },
-    {
-      id: 3,
       color: "from-blue-800 to-blue-900",
       hoverColor: "from-blue-600 to-blue-700",
       icon: (
         <img
           src={FarishteyLogo}
           alt="Farishtey Logo"
-          className="h-45 w-45 object-contain"
+          className="h-47 w-47 object-contain"
         />
       ),
       action: handleFarishteyClick,
@@ -103,29 +105,23 @@ function HomePage() {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
+    <div className="min-h-screen flex flex-col bg-yellow-500">
       {/* Navbar */}
-      <nav className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white shadow-md">
-        <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/2554/2554966.png"
-              alt="Logo"
-              className="h-10 w-10"
-            />
-            <span className="font-bold text-xl">Road Safety for Kids</span>
+      <nav className="bg-white shadow-md">
+        <div className="container mx-auto   flex items-center justify-between">
+          <img
+            src={YI_Logo}
+            alt="YI Logo"
+            className="h-25 w-25 object-contain"
+          />
+          <div className="flex-grow flex justify-center">
+            <img src={RS} alt="RS Logo" className="h-25 w-25 object-contain" />
           </div>
-          <div className="hidden md:flex space-x-4">
-            <a href="#" className="hover:text-yellow-200 transition-colors">
-              Home
-            </a>
-            <a href="#" className="hover:text-yellow-200 transition-colors">
-              About
-            </a>
-            <a href="#" className="hover:text-yellow-200 transition-colors">
-              Contact
-            </a>
-          </div>
+          <img
+            src={CII_Logo}
+            alt="CII Logo"
+            className="h-20 w-20 object-contain"
+          />
         </div>
       </nav>
 
@@ -133,37 +129,14 @@ function HomePage() {
         {/* Road Signs Component */}
         {/* <RoadSigns /> */}
 
-        {/* YI Logo - Left Corner */}
-        <div className="absolute top-4 left-4 z-20">
-          <img
-            src={YI_Logo}
-            alt="YI Logo"
-            className="h-28 w-28 object-contain"
-          />
-        </div>
-
-        {/* CII Logo - Right Corner */}
-        <div className="absolute top-4 right-4 z-20">
-          <img
-            src={CII_Logo}
-            alt="CII Logo"
-            className="h-28 w-60 object-contain"
-          />
-        </div>
-
         {/* Hero section with animation */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="mb-12 text-center"
+          className="mb-12 text-center flex justify-center"
         >
-          {/* traffic signal */}
-
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4 relative inline-block">
-            YOUNG INDIANS
-            <div className="absolute  left-0 right-0 h-2 bg-gradient-to-r from-orange-500 via-white to-green-500 rounded-full"></div>
-          </h1>
+          {/* <img src={RS} alt="RS Logo" className="w-25 h-25" /> */}
         </motion.div>
 
         {/* Cards and PhotoUploader container */}
@@ -204,7 +177,7 @@ function HomePage() {
                             boxShadow:
                               "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
                           }}
-                          className="bg-white rounded-2xl shadow-xl overflow-hidden w-full max-w-[200px] h-[250px] cursor-pointer"
+                          className="bg-white  shadow-xl overflow-hidden w-full max-w-[200px] h-[200px] cursor-pointer"
                           onMouseEnter={() => setActiveCard(card.id)}
                           onMouseLeave={() => setActiveCard(null)}
                           onClick={card.action}
@@ -233,8 +206,8 @@ function HomePage() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
               >
-                <div className="bg-white rounded-2xl w-90 shadow-xl overflow-hidden">
-                  <div className="h-12 bg-gradient-to-r from-yellow-500 to-yellow-600 flex items-center justify-between px-4">
+                <div className="bg-white rounded-2xl mt-25 w-90 shadow-xl overflow-hidden">
+                  <div className="h-12 bg-yellow-500 flex items-center justify-between px-4">
                     <button
                       onClick={handleClosePhotoUploader}
                       className="text-white hover:text-yellow-200"
