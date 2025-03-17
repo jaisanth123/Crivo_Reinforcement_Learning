@@ -203,7 +203,7 @@ def action(pdf_path: str) -> str:
 
     d = detected_text
     d = d.split("\n")
-
+    print(d)
     for i in d:
             if(len(i) == 2):
                 pos1,pos2 = i[0],i[1]
@@ -218,6 +218,26 @@ def action(pdf_path: str) -> str:
                     
                     if(pos1 in data["Activity"]):
                         data["Activity"][pos1][int(pos2)]=0
+                        
+            else:
+                i=i.replace(")","")
+                i=i.replace("(","")
+                print("re",i)
+                if(len(i) == 2):
+                    pos1,pos2 = i[0],i[1]
+                    print(i)
+                    if(pos1 == "1"):
+                        pos1 = "I"
+                    if(pos2 == "O"):
+                        pos2 ="0"        
+                    if(pos2.isdigit()):
+                        if(pos1 in data):
+                            data[pos1][int(pos2)]=0
+                        
+                        if(pos1 in data["Activity"]):
+                            data["Activity"][pos1][int(pos2)]=0
+                        
+                
     if "Activity" in data:
         activity_dict = data["Activity"]
     
