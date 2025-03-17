@@ -181,7 +181,7 @@ def action(pdf_path: str) -> str:
     print("output json deleted")
 
     data={
-        "Driven_by": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        "W": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         "Activity": {
             "A": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
             "B": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -196,8 +196,8 @@ def action(pdf_path: str) -> str:
             "K": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
             "L": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         },
-        "By_Child": [1,1,1,1],
-        "By_Parents": [1,1]
+        "X": [1,1,1,1],
+        "Y": [1,1]
     }
 
 
@@ -207,6 +207,7 @@ def action(pdf_path: str) -> str:
     for i in d:
             if(len(i) == 2):
                 pos1,pos2 = i[0],i[1]
+                print(i)
                 if(pos1 == "1"):
                     pos1 = "I"
                 if(pos2 == "O"):
@@ -223,7 +224,23 @@ def action(pdf_path: str) -> str:
     if 0 in activity_dict:
         del activity_dict[0]
     print(data)
-    return data
+    updated_data = {}
+    
+    # Map old keys to new keys
+    key_mapping = {
+        'W': 'Driven_by',
+        'X': 'By_Child',
+        'Y': 'By_Parents'
+    }
+    
+    # Copy data with updated keys
+    for key, value in data.items():
+        if key in key_mapping:
+            updated_data[key_mapping[key]] = value
+        else:
+            updated_data[key] = value
+    
+    return updated_data
 # Endpoint to upload the PDF file
 @app.post("/upload/")
 async def upload_pdf(file: UploadFile = File(...)):
