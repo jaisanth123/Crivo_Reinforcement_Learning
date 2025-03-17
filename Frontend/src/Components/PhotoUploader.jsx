@@ -212,7 +212,12 @@ function PhotoUploader() {
 
     try {
       const response = await axios.get(
-        `https://crivo-reinforcement-learning.onrender.com/check-email/${email}`
+        `http://82.25.105.118:8000/check-email/${email}`,
+        {
+          headers: {
+            "ngrok-skip-browser-warning": "true",
+          },
+        }
       );
       console.log("Email check response:", response.data);
 
@@ -309,11 +314,12 @@ function PhotoUploader() {
         formData.append("email", email);
 
         const apiResponse = await axios.post(
-          "https://crivo-reinforcement-learning.onrender.com/upload/",
+          "http://82.25.105.118:8000/upload/",
           formData,
           {
             headers: {
               "Content-Type": "multipart/form-data",
+              "ngrok-skip-browser-warning": "true",
             },
             onUploadProgress: (progressEvent) => {
               const percentCompleted = Math.round(
@@ -394,11 +400,12 @@ function PhotoUploader() {
 
       // Send the data to the FastAPI backend
       const response = await axios.post(
-        "https://crivo-reinforcement-learning.onrender.com/submit",
+        "http://82.25.105.118:8000/submit",
         transformedData,
         {
           headers: {
             "Content-Type": "application/json",
+            "ngrok-skip-browser-warning": "true",
           },
         }
       );

@@ -339,3 +339,7 @@ async def submit_data(data: InputData):
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/")
+async def root():
+    return {"message": "Welcome to the API!"}
