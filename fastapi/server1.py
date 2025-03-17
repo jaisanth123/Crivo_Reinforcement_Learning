@@ -115,12 +115,11 @@ def action(pdf_path: str) -> str:
                 files={"image": file},
                 data={"type": "file"}
             )
-
+        print("Removed split png",image_path)
+        os.remove(image_path)
         if response.status_code == 200:
             img_url = response.json()["data"]["link"]
             print("Image Uploaded Successfully:", img_url)
-            os.remove(image_path)
-            print("Removed split png",image_path)
             return img_url
         else:
             try:
@@ -129,7 +128,7 @@ def action(pdf_path: str) -> str:
                 error_msg = response.text
             print("Upload Error:", error_msg)
             return None
-
+        
     pdf_path = p
     output_folder = r".\\"
     image_path = r".\\"+str(random.randint(100000,999999))
