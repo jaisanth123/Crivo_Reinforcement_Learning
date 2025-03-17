@@ -337,7 +337,7 @@ function ResultDisplay() {
 
             {result.Activity && typeof result.Activity === "object" && (
               <motion.div
-                initial={{ opacity: 0, y:20 }}
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.5 }}
               >
@@ -398,16 +398,16 @@ function ResultDisplay() {
                     <button
                       onClick={generatePDF}
                       disabled={isGeneratingCertificate}
-                      className={`bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white font-bold py-2 px-6 rounded-full shadow-md hover:shadow-lg transition-all duration-300 flex items-center ${
+                      className={` text-green-700 bg-green-100 hover:bg-green-200 py-2 px-6 rounded-full shadow-md hover:shadow-lg transition-all duration-300 flex items-center ${
                         isGeneratingCertificate
                           ? "opacity-75 cursor-not-allowed"
                           : ""
                       }`}
                     >
-                      <Download className="h-5 w-5 mr-2" />
+                      <Printer className="h-5 w-5 mr-2" />
                       {isGeneratingCertificate
                         ? "Generating..."
-                        : "Save & Generate Certificate"}
+                        : "Generate Certificate"}
                     </button>
                   </motion.div>
                 </motion.div>

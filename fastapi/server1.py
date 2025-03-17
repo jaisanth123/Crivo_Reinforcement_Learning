@@ -203,11 +203,9 @@ def action(pdf_path: str) -> str:
 
     d = detected_text
     d = d.split("\n")
-    print(d)
     for i in d:
             if(len(i) == 2):
                 pos1,pos2 = i[0],i[1]
-                print(i)
                 if(pos1 == "1"):
                     pos1 = "I"
                 if(pos2 == "O"):
@@ -222,10 +220,8 @@ def action(pdf_path: str) -> str:
             else:
                 i=i.replace(")","")
                 i=i.replace("(","")
-                print("re",i)
                 if(len(i) == 2):
                     pos1,pos2 = i[0],i[1]
-                    print(i)
                     if(pos1 == "1"):
                         pos1 = "I"
                     if(pos2 == "O"):
