@@ -6,7 +6,7 @@ import CityDropdown from "./CityDropdown";
 import certificateImage from "../Components/Chota Cop Certificate.png";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
-import { Toaster, toast } from 'react-hot-toast';
+import { Toaster, toast } from "react-hot-toast";
 
 function PhotoProcessor({ imageFile, onResultReceived, onError }) {
   const navigate = useNavigate();
@@ -104,7 +104,7 @@ function PhotoProcessor({ imageFile, onResultReceived, onError }) {
 
           toast.success("Certificate generated successfully!", {
             duration: 3000,
-            position: 'top-right',
+            position: "top-right",
           });
         })
         .catch((err) => {
@@ -162,7 +162,7 @@ function PhotoProcessor({ imageFile, onResultReceived, onError }) {
         // Notify user that email was found
         toast.info("Email found in system. Generating certificate...", {
           duration: 3000,
-          position: 'top-right',
+          position: "top-right",
         });
 
         // Generate the certificate
@@ -418,7 +418,7 @@ function PhotoProcessor({ imageFile, onResultReceived, onError }) {
           {isLoading
             ? "Processing..."
             : isGeneratingCertificate
-            ? "Generating Certificate..."
+            ? "Generati sdng Certificate..."
             : "Process Image"}
         </button>
 
