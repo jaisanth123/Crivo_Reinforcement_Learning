@@ -257,11 +257,6 @@ def action(pdf_path: str) -> str:
     
     return updated_data
 # Endpoint to upload the PDF file
-
-
-@app.get("/")
-def read_root():
-    return {"message": "Hello Welcome to my API"}
 @app.post("/upload/")
 async def upload_pdf(file: UploadFile = File(...)):
     # Define the location where the PDF will be saved temporarily

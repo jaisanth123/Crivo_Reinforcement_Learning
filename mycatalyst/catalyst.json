@@ -1,0 +1,12 @@
+{
+  "project_name": "my-catalyst-project",
+
+  "functions": {
+    "backend": {
+      "type": "web",
+      "runtime": "python3",
+      "targets": ["backend"]
+      
+    }
+  }
+}
