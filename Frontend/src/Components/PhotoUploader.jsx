@@ -10,7 +10,7 @@ import certificateImage from "../Components/Chota Cop Certificate.png";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
 import { motion } from "framer-motion";
-import { Toaster, toast } from 'react-hot-toast';
+import { Toaster, toast } from "react-hot-toast";
 
 function PhotoUploader() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -172,7 +172,7 @@ function PhotoUploader() {
           // Use toast.success
           toast.success("Certificate generated successfully!", {
             duration: 3000,
-            position: 'top-right',
+            position: "top-right",
           });
         })
         .catch((err) => {
@@ -180,7 +180,7 @@ function PhotoUploader() {
           setIsGeneratingCertificate(false);
           toast.error("Failed to generate certificate. Please try again.", {
             duration: 3000,
-            position: 'top-right',
+            position: "top-right",
           });
         });
     };
@@ -190,10 +190,13 @@ function PhotoUploader() {
       console.error("Failed to load the certificate template image");
       document.body.removeChild(tempDiv);
       setIsGeneratingCertificate(false);
-      toast.error("Failed to load certificate template. Please check the image path.", {
-        duration: 3000,
-        position: 'top-right',
-      });
+      toast.error(
+        "Failed to load certificate template. Please check the image path.",
+        {
+          duration: 3000,
+          position: "top-right",
+        }
+      );
     };
   };
 
@@ -209,7 +212,7 @@ function PhotoUploader() {
 
     try {
       const response = await axios.get(
-        `http://127.0.0.1:8000/check-email/${email}`
+        `https://crivo-reinforcement-learning.onrender.com/check-email/${email}`
       );
       console.log("Email check response:", response.data);
 
@@ -224,10 +227,10 @@ function PhotoUploader() {
         };
 
         // Use toast() instead of toast.info
-        toast('Email found in system. Generating certificate...', {
-          icon: 'ℹ️',
+        toast("Email found in system. Generating certificate...", {
+          icon: "ℹ️",
           duration: 3000,
-          position: 'top-right',
+          position: "top-right",
         });
 
         generatePDF(certificateData);
@@ -240,7 +243,7 @@ function PhotoUploader() {
       console.error("Error checking email:", error);
       toast.error(`Error checking email: ${error.message}`, {
         duration: 3000,
-        position: 'top-right',
+        position: "top-right",
       });
       return { exists: false, error: error.message };
     } finally {
@@ -306,7 +309,7 @@ function PhotoUploader() {
         formData.append("email", email);
 
         const apiResponse = await axios.post(
-          "http://127.0.0.1:8000/upload/",
+          "https://crivo-reinforcement-learning.onrender.com/upload/",
           formData,
           {
             headers: {
@@ -391,7 +394,7 @@ function PhotoUploader() {
 
       // Send the data to the FastAPI backend
       const response = await axios.post(
-        "http://127.0.0.1:8000/submit",
+        "https://crivo-reinforcement-learning.onrender.com/submit",
         transformedData,
         {
           headers: {
