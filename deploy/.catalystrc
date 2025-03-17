@@ -1,0 +1,30 @@
+{
+  "defaults": {
+    "project": 1,
+    "env": 1
+  },
+  "actives": {
+    "project": 1,
+    "env": 1
+  },
+  "projects": [
+    {
+      "idx": 1,
+      "id": "14568000000010001",
+      "name": "yi",
+      "domain": {
+        "id": "50025447124",
+        "name": "yi-60038759557.development"
+      },
+      "timezone": "Asia/Kolkata",
+      "env": [
+        {
+          "idx": 1,
+          "id": "60038759557",
+          "name": "Development",
+          "type": 3
+        }
+      ]
+    }
+  ]
+}
