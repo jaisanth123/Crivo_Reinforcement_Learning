@@ -9,8 +9,6 @@ function App() {
     <Router>
       <div className=" w-full min-h-screen">
         <Routes>
-
-          
           <Route path="/" element={<HomePage />} />
           <Route path="/photo/upload" element={<PhotoUploader />} />
           <Route path="/photo/camera" element={<CameraCapture />} />

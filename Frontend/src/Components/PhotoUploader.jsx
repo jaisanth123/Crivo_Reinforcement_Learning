@@ -212,7 +212,7 @@ function PhotoUploader() {
 
     try {
       const response = await axios.get(
-        `http://82.25.105.118:8000/check-email/${email}`,
+        `http://82.25.105.118:5000/check-email/${email}`,
         {
           headers: {
             "ngrok-skip-browser-warning": "true",
@@ -314,7 +314,7 @@ function PhotoUploader() {
         formData.append("email", email);
 
         const apiResponse = await axios.post(
-          "http://82.25.105.118:8000/upload/",
+          "http://82.25.105.118:5000/upload/",
           formData,
           {
             headers: {
@@ -400,7 +400,7 @@ function PhotoUploader() {
 
       // Send the data to the FastAPI backend
       const response = await axios.post(
-        "http://82.25.105.118:8000/submit",
+        "http://82.25.105.118:5000/submit",
         transformedData,
         {
           headers: {
