@@ -53,14 +53,14 @@ function QuestionSection({ title, questions, getQuestionText, binaryToYesNo }) {
         ))}
       </div>
 
-      <div className="mt-2 pt-2 border-t border-gray-200 flex justify-center">
+      {/* <div className="mt-2 pt-2 border-t border-gray-200 flex justify-center">
         <div
-          className={`px-3 py-1 rounded-full bg-gradient-to-r from-${color}-400 to-${color}-600 text-white text-xs font-medium flex items-center cursor-pointer`}
+          className={`px-3 py-1 rounded-full  from-${color}-400 to-${color}-600 text-white text-xs font-medium flex items-center cursor-pointer`}
         >
           <SectionIcon className="h-3 w-3 mr-1" />
           {title} Summary
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
