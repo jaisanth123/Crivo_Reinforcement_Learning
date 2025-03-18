@@ -605,8 +605,8 @@ function PhotoUploader() {
             disabled={!isFormValid() || isLoading || isGeneratingCertificate}
             className={`py-2  px-4 rounded-md text-white text-xl font-medium ${
               !isFormValid() || isLoading || isGeneratingCertificate
-                ? "bg-yellow-400 cursor-not-allowed"
-                : "bg-yellow-500 hover:bg-yellow-600"
+                ? "bg-red-400 cursor-not-allowed"
+                : "bg-red-500 hover:bg-red-600"
             }`}
           >
             {isLoading

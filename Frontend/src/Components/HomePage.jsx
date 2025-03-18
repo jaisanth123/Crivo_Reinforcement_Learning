@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import PhotoUploader from "./PhotoUploader";
 import RoadSigns from "./RoadSigns";
 import chotaCopLogo from "../assets/CH.png";
-import CII_Logo from "../assets/CII_Logo.png";
+import CII_Logo from "../assets/CH3.png";
 import YI_Logo from "../assets/YI_Logo.png";
 import FarishteyLogo from "../assets/Faristhey.png";
 import RS from "../assets/RS.png";
@@ -120,7 +120,7 @@ function HomePage() {
           <img
             src={CII_Logo}
             alt="CII Logo"
-            className="h-20 w-20 object-contain"
+            className="h-25 w-25 object-contain"
           />
         </div>
       </nav>
@@ -207,7 +207,7 @@ function HomePage() {
                 transition={{ duration: 0.5, delay: 0.3 }}
               >
                 <div className="bg-white rounded-2xl mt-25 w-90 shadow-xl overflow-hidden">
-                  <div className="h-12 bg-yellow-500 flex items-center justify-between px-4">
+                  <div className="h-12 bg-red-500 flex items-center justify-between px-4">
                     <button
                       onClick={handleClosePhotoUploader}
                       className="text-white hover:text-yellow-200"
